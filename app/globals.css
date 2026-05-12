@@ -1,0 +1,130 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Estancia El Cangüé Color Palette */
+  --background: #F4EFE4;
+  --foreground: #2E2A24;
+  --card: #FAF8F2;
+  --card-foreground: #2E2A24;
+  --popover: #FAF8F2;
+  --popover-foreground: #2E2A24;
+  --primary: #5E6A45;
+  --primary-foreground: #FAF8F2;
+  --secondary: #6B4F36;
+  --secondary-foreground: #FAF8F2;
+  --muted: #F4EFE4;
+  --muted-foreground: #6B4F36;
+  --accent: #DCCDB7;
+  --accent-foreground: #2E2A24;
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: #DCCDB7;
+  --input: #DCCDB7;
+  --ring: #5E6A45;
+  --chart-1: #5E6A45;
+  --chart-2: #6B4F36;
+  --chart-3: #DCCDB7;
+  --chart-4: #465034;
+  --chart-5: #2E2A24;
+  --radius: 0.5rem;
+  
+  /* Custom brand colors */
+  --title: #6B4F36;
+  --button-hover: #465034;
+  --coral: #C4847A;
+}
+
+.dark {
+  --background: #1a1714;
+  --foreground: #F4EFE4;
+  --card: #2E2A24;
+  --card-foreground: #F4EFE4;
+  --popover: #2E2A24;
+  --popover-foreground: #F4EFE4;
+  --primary: #5E6A45;
+  --primary-foreground: #FAF8F2;
+  --secondary: #6B4F36;
+  --secondary-foreground: #FAF8F2;
+  --muted: #2E2A24;
+  --muted-foreground: #DCCDB7;
+  --accent: #465034;
+  --accent-foreground: #F4EFE4;
+  --border: #465034;
+  --input: #465034;
+  --ring: #5E6A45;
+}
+
+@theme inline {
+  --font-sans: 'Lato', sans-serif;
+  --font-serif: 'Marcellus', serif;
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-title: var(--title);
+  --color-button-hover: var(--button-hover);
+  --color-coral: var(--coral);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-title;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
