@@ -65,11 +65,11 @@ function readPostPayload(formData: FormData) {
 }
 
 function refreshBlogPaths(slug?: string) {
-  revalidatePath("/blog")
+  revalidatePath("/noticias")
   revalidatePath("/admin/blog")
 
   if (slug) {
-    revalidatePath(`/blog/${slug}`)
+    revalidatePath(`/noticias/${slug}`)
   }
 }
 

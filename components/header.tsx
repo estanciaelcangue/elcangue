@@ -3,57 +3,110 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
-
-const navLinks = [
-  { href: "/posada", label: "Posada de Campo" },
-  { href: "/eventos", label: "Eventos" },
-  { href: "/blog", label: "Blog" },
-  { href: "/destination-wedding", label: "Destination Wedding" },
-  { href: "/rosedal", label: "El Rosedal" },
-  { href: "/contacto", label: "Contacto" },
-]
+import { getDictionary } from "@/lib/i18n/dictionaries"
+import { localeShortLabels, locales, type Locale } from "@/lib/i18n/config"
+import { getLocaleFromPathnameOrDefault, localizePath, switchLocalePath } from "@/lib/i18n/navigation"
+import { cn } from "@/lib/utils"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const locale = getLocaleFromPathnameOrDefault(pathname)
+  const dictionary = getDictionary(locale)
+
+  const navLinks = [
+    { href: "/posada", label: dictionary.nav.posada },
+    { href: "/eventos", label: dictionary.nav.eventos },
+    { href: "/destination-wedding", label: dictionary.nav.destinationWedding },
+    { href: "/rosedal", label: dictionary.nav.rosedal },
+    { href: "/noticias", label: dictionary.nav.blog },
+    { href: "/contacto", label: dictionary.nav.contacto },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 10)
     }
+
+    handleScroll()
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  const languageLinks = (
+    onClick?: () => void,
+    className = "h-8 min-w-8"
+  ) => (
+    <div className="flex items-center gap-1" aria-label={dictionary.common.languageSwitcher}>
+      {locales.map((item: Locale) => (
+        <Link
+          key={item}
+          href={switchLocalePath(pathname, item)}
+          hrefLang={item}
+          aria-current={item === locale ? "true" : undefined}
+          onClick={onClick}
+          className={`${className} inline-flex items-center justify-center border text-[0.65rem] font-semibold tracking-[0.12em] transition-colors ${
+            item === locale
+              ? "border-primary bg-primary text-primary-foreground"
+              : "border-border bg-background/40 text-foreground/65 hover:border-primary/50 hover:text-primary"
+          }`}
+        >
+          {localeShortLabels[item]}
+        </Link>
+      ))}
+    </div>
+  )
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={cn(
+        "fixed left-0 right-0 top-0 z-50 mx-auto w-full border-b border-transparent transition-all duration-300 ease-out",
         isScrolled
-          ? "bg-card/95 backdrop-blur-sm shadow-sm"
+          ? "border-border/70 bg-card/95 shadow-sm backdrop-blur-lg lg:top-4 lg:max-w-6xl lg:rounded-md lg:border"
           : "bg-card/90"
-      }`}
+      )}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div
+        className={cn(
+          "mx-auto max-w-7xl px-4 transition-all duration-300 ease-out sm:px-6 lg:px-8",
+          isScrolled && "lg:max-w-6xl lg:px-5"
+        )}
+      >
+        <div
+          className={cn(
+            "flex h-20 items-center justify-between transition-all duration-300 ease-out",
+            isScrolled && "lg:h-16"
+          )}
+        >
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0">
+          <Link href={localizePath("/", locale)} className="flex-shrink-0">
             <Image
               src="/images/logo.png"
-              alt="Estancia El Cangue"
+              alt={dictionary.site.name}
               width={100}
               height={50}
-              className="h-12 w-auto"
+              className={cn(
+                "h-12 w-auto transition-all duration-300 ease-out",
+                isScrolled && "lg:h-10"
+              )}
               priority
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav
+            className={cn(
+              "hidden items-center gap-8 transition-all duration-300 ease-out lg:flex",
+              isScrolled && "lg:gap-6"
+            )}
+          >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localizePath(link.href, locale)}
                 className="text-xs font-medium text-foreground/80 hover:text-primary transition-colors tracking-[0.15em] uppercase"
               >
                 {link.label}
@@ -61,21 +114,13 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Language Flags - Desktop */}
-          <div className="hidden lg:flex items-center gap-2">
-            <button className="w-6 h-4 overflow-hidden rounded-sm opacity-70 hover:opacity-100 transition-opacity" aria-label="English">
-              <div className="w-full h-full bg-gradient-to-b from-blue-900 via-white to-red-600" />
-            </button>
-            <button className="w-6 h-4 overflow-hidden rounded-sm opacity-70 hover:opacity-100 transition-opacity" aria-label="Espanol">
-              <div className="w-full h-full bg-gradient-to-b from-red-600 via-yellow-400 to-red-600" />
-            </button>
-          </div>
+          <div className="hidden lg:flex">{languageLinks()}</div>
 
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2 text-foreground"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={dictionary.common.toggleMenu}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -89,20 +134,15 @@ export function Header() {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localizePath(link.href, locale)}
                 className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors tracking-wide uppercase py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="flex items-center gap-3 pt-2 border-t border-border mt-2">
-              <button className="w-6 h-4 overflow-hidden rounded-sm" aria-label="English">
-                <div className="w-full h-full bg-gradient-to-b from-blue-900 via-white to-red-600" />
-              </button>
-              <button className="w-6 h-4 overflow-hidden rounded-sm" aria-label="Espanol">
-                <div className="w-full h-full bg-gradient-to-b from-red-600 via-yellow-400 to-red-600" />
-              </button>
+            <div className="pt-2 border-t border-border mt-2">
+              {languageLinks(() => setIsMobileMenuOpen(false), "h-9 min-w-10")}
             </div>
           </nav>
         </div>

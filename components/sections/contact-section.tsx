@@ -2,8 +2,17 @@
 
 import { useState } from "react"
 import { MapPin, Phone, Mail } from "lucide-react"
+import { Reveal } from "@/components/animations/reveal"
+import { defaultLocale } from "@/lib/i18n/config"
+import { getDictionary, type Dictionary } from "@/lib/i18n/dictionaries"
 
-export function ContactSection() {
+type ContactSectionProps = {
+  dictionary?: Dictionary
+}
+
+export function ContactSection({
+  dictionary = getDictionary(defaultLocale),
+}: ContactSectionProps) {
   const [formData, setFormData] = useState({
     checkIn: "",
     checkOut: "",
@@ -13,6 +22,7 @@ export function ContactSection() {
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const copy = dictionary.home.contact
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -23,26 +33,26 @@ export function ContactSection() {
     setIsSubmitting(true)
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setIsSubmitting(false)
-    alert("Gracias por tu mensaje. Te contactaremos pronto.")
+    alert(copy.successMessage)
     setFormData({ checkIn: "", checkOut: "", guests: "", name: "", email: "", message: "" })
   }
 
   return (
-    <section id="contacto" className="py-16 bg-background">
+    <Reveal as="section" id="contacto" className="py-16 bg-background">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Contact Info */}
           <div>
             <div className="border-t border-b border-border py-6 mb-8">
               <h3 className="text-xs tracking-[0.2em] uppercase text-foreground/60 mb-6">
-                Contactanos
+                {copy.contactTitle}
               </h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <MapPin size={16} className="text-foreground/50 mt-0.5 flex-shrink-0" />
                   <p className="text-foreground/70 text-sm">
-                    Paysandu, Departamento de<br />
-                    Paysandu, Uruguay
+                    {copy.addressLines[0]}<br />
+                    {copy.addressLines[1]}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -62,7 +72,7 @@ export function ContactSection() {
 
             <div className="border-b border-border pb-6">
               <h3 className="text-xs tracking-[0.2em] uppercase text-foreground/60 mb-4">
-                Encontranos
+                {copy.findUs}
               </h3>
               {/* Map placeholder */}
               <div className="aspect-video w-full rounded-sm overflow-hidden border border-border bg-accent/30">
@@ -74,7 +84,7 @@ export function ContactSection() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Ubicacion de Estancia El Cangue"
+                  title={copy.mapTitle}
                 />
               </div>
             </div>
@@ -84,7 +94,7 @@ export function ContactSection() {
           <div>
             <div className="border border-border p-6 bg-card">
               <h3 className="text-xs tracking-[0.2em] uppercase text-foreground/60 mb-6 text-center">
-                Consultanos por Disponibilidad
+                {copy.availabilityTitle}
               </h3>
               
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,12 +131,12 @@ export function ContactSection() {
                     onChange={handleChange}
                     className="w-full px-3 py-2.5 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50 text-foreground/70"
                   >
-                    <option value="">Seleccionar...</option>
-                    <option value="1">1 huesped</option>
-                    <option value="2">2 huespedes</option>
-                    <option value="3">3 huespedes</option>
-                    <option value="4">4 huespedes</option>
-                    <option value="5+">5+ huespedes</option>
+                    <option value="">{copy.guestPlaceholder}</option>
+                    {copy.guests.map((guest, index) => (
+                      <option key={guest} value={index === copy.guests.length - 1 ? "5+" : String(index + 1)}>
+                        {guest}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -139,7 +149,7 @@ export function ContactSection() {
                     onChange={handleChange}
                     required
                     className="w-full px-3 py-2.5 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50 text-foreground"
-                    placeholder="Enter Your First Name"
+                    placeholder={copy.namePlaceholder}
                   />
                 </div>
 
@@ -152,7 +162,7 @@ export function ContactSection() {
                     onChange={handleChange}
                     required
                     className="w-full px-3 py-2.5 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50 text-foreground"
-                    placeholder="Email Address"
+                    placeholder={copy.emailPlaceholder}
                   />
                 </div>
 
@@ -164,7 +174,7 @@ export function ContactSection() {
                     onChange={handleChange}
                     rows={4}
                     className="w-full px-3 py-2.5 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50 text-foreground resize-none"
-                    placeholder="Mensaje (opcional)"
+                    placeholder={copy.messagePlaceholder}
                   />
                 </div>
 
@@ -173,13 +183,13 @@ export function ContactSection() {
                   disabled={isSubmitting}
                   className="w-full px-6 py-3 bg-coral text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-coral/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Enviando..." : "Enviar"}
+                  {isSubmitting ? dictionary.common.sending : dictionary.common.send}
                 </button>
               </form>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </Reveal>
   )
 }

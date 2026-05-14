@@ -2,8 +2,12 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import Image from "next/image"
 import Link from "next/link"
+import { getRequestLocale } from "@/lib/i18n/server"
+import { localizePath } from "@/lib/i18n/navigation"
 
-export default function EventosPage() {
+export default async function EventosPage() {
+  const locale = await getRequestLocale()
+
   return (
     <>
       <Header />
@@ -68,7 +72,7 @@ export default function EventosPage() {
                   arreglos florales. Eso es para nosotros, un trabajo bien hecho.
                 </p>
                 <Link
-                  href="/contacto"
+                  href={localizePath("/contacto", locale)}
                   className="inline-flex items-center justify-center px-6 py-2.5 bg-coral text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-coral/90 transition-colors"
                 >
                   Contactar
@@ -102,7 +106,7 @@ export default function EventosPage() {
                   gastronomia, alojamiento, entretenimiento y espacios de trabajo.
                 </p>
                 <Link
-                  href="/contacto"
+                  href={localizePath("/contacto", locale)}
                   className="inline-flex items-center justify-center px-6 py-2.5 bg-coral text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-coral/90 transition-colors"
                 >
                   Contactar

@@ -2,6 +2,8 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import Image from "next/image"
 import Link from "next/link"
+import { getRequestLocale } from "@/lib/i18n/server"
+import { localizePath } from "@/lib/i18n/navigation"
 
 const roseVarieties = [
   {
@@ -22,7 +24,9 @@ const roseVarieties = [
   },
 ]
 
-export default function RosedalPage() {
+export default async function RosedalPage() {
+  const locale = await getRequestLocale()
+
   return (
     <>
       <Header />
@@ -246,7 +250,7 @@ export default function RosedalPage() {
                 </h3>
               </div>
               <Link
-                href="/contacto"
+                href={localizePath("/contacto", locale)}
                 className="inline-flex items-center justify-center px-6 py-3 border border-background/50 text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-background/10 transition-colors"
               >
                 Contactar

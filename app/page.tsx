@@ -1,23 +1,7 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { HeroSection } from "@/components/sections/hero-section"
-import { AboutSection } from "@/components/sections/about-section"
-import { AccommodationSection } from "@/components/sections/accommodation-section"
-import { TestimonialsSection } from "@/components/sections/testimonials-section"
-import { ContactSection } from "@/components/sections/contact-section"
+import { HomePageContent } from "@/components/pages/home-page"
+import { defaultLocale } from "@/lib/i18n/config"
+import { getDictionary } from "@/lib/i18n/dictionaries"
 
 export default function HomePage() {
-  return (
-    <>
-      <Header />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <AccommodationSection />
-        <TestimonialsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </>
-  )
+  return <HomePageContent dictionary={getDictionary(defaultLocale)} locale={defaultLocale} />
 }

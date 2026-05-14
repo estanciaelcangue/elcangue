@@ -1,21 +1,29 @@
-import Link from "next/link"
+"use client"
+
 import { MapPin, Mail, Phone, Instagram, Facebook } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { getDictionary } from "@/lib/i18n/dictionaries"
+import { getLocaleFromPathnameOrDefault } from "@/lib/i18n/navigation"
 
 export function Footer() {
+  const pathname = usePathname()
+  const locale = getLocaleFromPathnameOrDefault(pathname)
+  const dictionary = getDictionary(locale)
+
   return (
     <footer className="bg-primary text-background">
       {/* Main Footer */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
           <h3 className="text-xs tracking-[0.2em] uppercase text-background/80 mb-6">
-            Contactanos
+            {dictionary.footer.contactTitle}
           </h3>
           
           <div className="space-y-3 mb-8">
             <div className="flex items-center justify-center gap-2">
               <MapPin size={14} className="text-background/60" />
               <p className="text-background/70 text-sm">
-                Ruta 3 km 358.5, Paysandu, Uruguay
+                {dictionary.footer.address}
               </p>
             </div>
             <div className="flex items-center justify-center gap-2">
@@ -62,12 +70,6 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/50 text-xs">
               ESTANCIA EL CANGUE
-            </p>
-            <p className="text-background/50 text-xs">
-              Created by{" "}
-              <Link href="#" className="hover:text-background transition-colors">
-                Fica Creativos
-              </Link>
             </p>
           </div>
         </div>

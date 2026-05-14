@@ -1,0 +1,164 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Estancia El Cangüé" [ref=e5] [cursor=pointer]:
+        - /url: /es
+        - img "Estancia El Cangüé" [ref=e6]
+      - navigation [ref=e7]:
+        - link "Posada de Campo" [ref=e8] [cursor=pointer]:
+          - /url: /es/posada
+        - link "Eventos" [ref=e9] [cursor=pointer]:
+          - /url: /es/eventos
+        - link "Blog" [ref=e10] [cursor=pointer]:
+          - /url: /es/blog
+        - link "Destination Wedding" [ref=e11] [cursor=pointer]:
+          - /url: /es/destination-wedding
+        - link "El Rosedal" [ref=e12] [cursor=pointer]:
+          - /url: /es/rosedal
+        - link "Contacto" [ref=e13] [cursor=pointer]:
+          - /url: /es/contacto
+      - generic "Cambiar idioma" [ref=e15]:
+        - link "ES" [ref=e16] [cursor=pointer]:
+          - /url: /es
+        - link "EN" [ref=e17] [cursor=pointer]:
+          - /url: /en
+        - link "FR" [ref=e18] [cursor=pointer]:
+          - /url: /fr
+        - link "PT" [ref=e19] [cursor=pointer]:
+          - /url: /pt
+  - main [ref=e20]:
+    - generic [ref=e26]:
+      - paragraph [ref=e27]: Estancia rural en Paysandú, Uruguay
+      - heading "Vive la experiencia Cangüé" [level=1] [ref=e28]:
+        - generic [ref=e29]: Vive la experiencia Cangüé
+        - generic [ref=e30]: Vive la experiencia
+        - img [ref=e32]
+      - paragraph [ref=e33]: Campo, calma y hospitalidad familiar en una casa con alma. Un refugio para alojarse, celebrar y volver a mirar el día sin apuro.
+      - generic [ref=e34]:
+        - link "Reservar ahora" [ref=e35] [cursor=pointer]:
+          - /url: "#contacto"
+        - link "Conocer la posada" [ref=e36] [cursor=pointer]:
+          - /url: /es/posada
+      - generic [ref=e37]:
+        - paragraph [ref=e38]: Posada
+        - paragraph [ref=e39]: Eventos
+        - paragraph [ref=e40]: Naturaleza
+    - generic [ref=e43]:
+      - img "Foto histórica de la familia fundadora" [ref=e46]
+      - generic [ref=e47]:
+        - paragraph [ref=e48]: Nuestra Historia
+        - generic [ref=e49]:
+          - paragraph [ref=e50]: La historia de la Estancia El Cangüé es una historia de supervivencia y de amor profundo por nuestras raíces, sobrevivencia al paso del tiempo, nunca tan cierto aquello de que "las nuevas del tiempo plasarán su mies". Por acá discurrieron tantos años de vida, estas viejas paredes y campos han sido testigo de todos los acontecimientos importantes de la vida, matrimonios, nacimientos, cumpleaños... pero también tristes partidas.
+          - paragraph [ref=e51]: Cuántas historias de vida llenan sus memorias como algo vivo, tangible, que constituyen quizás, el espíritu de la Estancia que nos envuelve como un manto apenas entrar. Una "casa con alma". Y amor profundo que se vuelve eterno cuando se transmite de padres a hijos, por la tierra y la naturaleza que nos rodea.
+          - paragraph [ref=e52]: Para nuestra familia, nuestra historia de amor con la estancia comenzó por allá por el 1920, cuando Pablo, un inmigrante de padre alemán y madre belga, se conoció y se enamoró de su vecina de balcón en el barrio de Caballito en Buenos Aires. Anita, una inmigrante polaca, salvada por su madrina de la disolución de la Polonia de posguerra.
+          - paragraph [ref=e53]: De esta vecindad fortuita nació una boda y de allí una familia que llegó a Uruguay por los años 20 en busca de nuevos horizontes y establecer raíces. Así comenzó nuestra historia en El Cangüé.
+        - link "Reservar ahora" [ref=e55] [cursor=pointer]:
+          - /url: "#alojamiento"
+    - generic [ref=e58]:
+      - link "Habitación La Malacara La Malacara" [ref=e59] [cursor=pointer]:
+        - /url: /es/posada
+        - img "Habitación La Malacara" [ref=e60]
+        - heading "La Malacara" [level=3] [ref=e63]
+      - link "Habitación La Mora La Mora" [ref=e64] [cursor=pointer]:
+        - /url: /es/posada
+        - img "Habitación La Mora" [ref=e65]
+        - heading "La Mora" [level=3] [ref=e68]
+      - link "Habitación La Tubiana La Tubiana" [ref=e69] [cursor=pointer]:
+        - /url: /es/posada
+        - img "Habitación La Tubiana" [ref=e70]
+        - heading "La Tubiana" [level=3] [ref=e73]
+      - link "Habitación La Rosilla La Rosilla" [ref=e74] [cursor=pointer]:
+        - /url: /es/posada
+        - img "Habitación La Rosilla" [ref=e75]
+        - heading "La Rosilla" [level=3] [ref=e78]
+      - link "Habitación La Gateada La Gateada" [ref=e79] [cursor=pointer]:
+        - /url: /es/posada
+        - img "Habitación La Gateada" [ref=e80]
+        - heading "La Gateada" [level=3] [ref=e83]
+      - link "Habitación La Zaina La Zaina" [ref=e84] [cursor=pointer]:
+        - /url: /es/posada
+        - img "Habitación La Zaina" [ref=e85]
+        - heading "La Zaina" [level=3] [ref=e88]
+    - generic [ref=e90]:
+      - heading "Lo que dicen nuestros huéspedes" [level=2] [ref=e92]
+      - generic [ref=e93]:
+        - paragraph [ref=e94]: En el medio del campo, somos súper fans con mi familia y pasamos un fin de semana muy lindo, superaron nuestras expectativas. Atención es divina. Habitaciones con todos los detalles de un hotel y la calidez de una casa. Desayunos exquisitos. El entorno es hermoso y súper tranquilo. Un lugar para volver.
+        - generic [ref=e95]:
+          - img [ref=e96]
+          - img [ref=e98]
+          - img [ref=e100]
+          - img [ref=e102]
+          - img [ref=e104]
+        - paragraph [ref=e106]: — Estela
+      - generic [ref=e107]:
+        - button "Testimonio anterior" [ref=e108]:
+          - img [ref=e109]
+        - generic [ref=e111]:
+          - button "Ir a testimonio 1" [ref=e112]
+          - button "Ir a testimonio 2" [ref=e113]
+          - button "Ir a testimonio 3" [ref=e114]
+        - button "Siguiente testimonio" [ref=e115]:
+          - img [ref=e116]
+    - generic [ref=e120]:
+      - generic [ref=e121]:
+        - generic [ref=e122]:
+          - heading "Contactanos" [level=3] [ref=e123]
+          - generic [ref=e124]:
+            - generic [ref=e125]:
+              - img [ref=e126]
+              - paragraph [ref=e129]:
+                - text: Paysandú, Departamento de
+                - text: Paysandú, Uruguay
+            - generic [ref=e130]:
+              - img [ref=e131]
+              - link "+598 99 726 883" [ref=e133] [cursor=pointer]:
+                - /url: tel:+59899726883
+            - generic [ref=e134]:
+              - img [ref=e135]
+              - link "reservas@estanciaelcangue.com.uy" [ref=e138] [cursor=pointer]:
+                - /url: mailto:reservas@estanciaelcangue.com.uy
+        - generic [ref=e139]:
+          - heading "Encontranos" [level=3] [ref=e140]
+          - iframe [ref=e142]
+      - generic [ref=e144]:
+        - heading "Consultanos por disponibilidad" [level=3] [ref=e145]
+        - generic [ref=e146]:
+          - generic [ref=e147]:
+            - textbox [ref=e149]:
+              - /placeholder: DD/MM/YYYY
+            - textbox [ref=e151]:
+              - /placeholder: DD/MM/YYYY
+          - combobox [ref=e153]:
+            - option "Seleccionar..." [selected]
+            - option "1 huésped"
+            - option "2 huéspedes"
+            - option "3 huéspedes"
+            - option "4 huéspedes"
+            - option "5+ huéspedes"
+          - textbox "Nombre" [ref=e155]
+          - textbox "Email" [ref=e157]
+          - textbox "Mensaje (opcional)" [ref=e159]
+          - button "Enviar" [ref=e160]
+  - contentinfo [ref=e161]:
+    - generic [ref=e163]:
+      - heading "Contactanos" [level=3] [ref=e164]
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - img [ref=e167]
+          - paragraph [ref=e170]: Ruta 3 km 358.5, Paysandú, Uruguay
+        - generic [ref=e171]:
+          - img [ref=e172]
+          - link "info@estanciaelcangue.com" [ref=e175] [cursor=pointer]:
+            - /url: mailto:info@estanciaelcangue.com
+        - generic [ref=e176]:
+          - img [ref=e177]
+          - link "+598 99 726 883" [ref=e179] [cursor=pointer]:
+            - /url: tel:+59899726883
+      - generic [ref=e180]:
+        - link "Facebook" [ref=e181] [cursor=pointer]:
+          - /url: https://facebook.com
+          - img [ref=e182]
+        - link "Instagram" [ref=e184] [cursor=pointer]:
+          - /url: https://instagram.com
+          - img [ref=e185]
+    - paragraph [ref=e191]: ESTANCIA EL CANGUE
