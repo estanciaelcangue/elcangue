@@ -1,6 +1,7 @@
 "use client"
 
 import { MapPin, Mail, Phone, Instagram, Facebook } from "lucide-react"
+import ShinyText from "./ShinyText"
 import { usePathname } from "next/navigation"
 import { getDictionary } from "@/lib/i18n/dictionaries"
 import { getLocaleFromPathnameOrDefault } from "@/lib/i18n/navigation"
@@ -71,6 +72,9 @@ export function Footer() {
             <p className="text-background/50 text-xs">
               ESTANCIA EL CANGUE
             </p>
+            <a href="https://grupodte.com" target="_blank" rel="noopener noreferrer">
+              <ShinyText text="Built by DTE" speed={2} fontSize={11} color="#ffffff80" shineColor="#ffffff" />
+            </a>
           </div>
         </div>
       </div>
