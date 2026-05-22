@@ -38,8 +38,8 @@ export function HeroSlideshow() {
           }}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-foreground/25 via-foreground/28 to-foreground/72" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(46,42,36,0.02)_0%,rgba(46,42,36,0.34)_58%,rgba(46,42,36,0.68)_100%)]" />
+      <div className="absolute inset-0 hidden bg-gradient-to-b from-foreground/25 via-foreground/28 to-foreground/72 lg:block" />
+      <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_center,rgba(46,42,36,0.02)_0%,rgba(46,42,36,0.34)_58%,rgba(46,42,36,0.68)_100%)] lg:block" />
     </div>
   )
 }

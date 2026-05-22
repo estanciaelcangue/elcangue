@@ -42,7 +42,7 @@ export default async function RootLayout({
   const locale = isLocale(localeHeader) ? localeHeader : defaultLocale
 
   return (
-    <html lang={locale} className={`${marcellus.variable} ${lato.variable} bg-background`}>
+    <html lang={locale} className={`${marcellus.variable} ${lato.variable} bg-background`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <PageTransition>{children}</PageTransition>
         {process.env.NODE_ENV === 'production' && <Analytics />}

@@ -53,7 +53,7 @@ const es = {
       titlePrefix: "Vive la experiencia",
       signature: "Cangüé",
       intro:
-        "Campo, calma y hospitalidad familiar en una casa con alma. Un refugio para alojarse, celebrar y volver a mirar el día sin apuro.",
+        "Alojamiento rural, eventos y descanso en una estancia con atención cercana y entorno natural.",
       primaryCta: "Reservar ahora",
       secondaryCta: "Conocer la posada",
       tags: ["Posada", "Eventos", "Naturaleza"],

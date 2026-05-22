@@ -128,3 +128,52 @@
 html {
   scroll-behavior: smooth;
 }
+
+.reservation-cta {
+  position: relative;
+  isolation: isolate;
+  animation: reservation-cta-pulse 2.8s ease-in-out infinite;
+}
+
+.reservation-cta::after {
+  position: absolute;
+  inset: -35% auto -35% -42%;
+  z-index: -1;
+  width: 34%;
+  content: '';
+  background: linear-gradient(100deg, transparent, rgba(250, 248, 242, 0.42), transparent);
+  transform: skewX(-18deg);
+  animation: reservation-cta-shine 2.8s ease-in-out infinite;
+}
+
+@keyframes reservation-cta-pulse {
+  0%, 100% {
+    box-shadow: 0 20px 50px rgba(46, 42, 36, 0.18);
+    transform: translateY(0);
+  }
+  45% {
+    box-shadow: 0 24px 64px rgba(70, 80, 52, 0.38);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes reservation-cta-shine {
+  0%, 18% {
+    left: -42%;
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  62%, 100% {
+    left: 118%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reservation-cta,
+  .reservation-cta::after {
+    animation: none;
+  }
+}

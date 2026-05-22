@@ -1,8 +1,8 @@
 import Image from "next/image"
-import Link from "next/link"
 import { Reveal } from "@/components/animations/reveal"
 import { defaultLocale } from "@/lib/i18n/config"
 import { getDictionary, type Dictionary } from "@/lib/i18n/dictionaries"
+import historyImage from "@/public/images/NUESTRA HISTORIA. ESTANCIA EL CANGUE PAYSANDU TURISMO.webp"
 
 type AboutSectionProps = {
   dictionary?: Dictionary
@@ -19,15 +19,11 @@ export function AboutSection({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Vintage Photo */}
           <div className="relative">
-            <div className="relative aspect-[3/4] max-w-sm mx-auto overflow-hidden border-8 border-card shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1509927083803-4bd519298ac4?q=80&w=2070&auto=format&fit=crop&sepia=50"
-                alt={copy.imageAlt}
-                fill
-                className="object-cover grayscale sepia"
-                style={{ filter: "sepia(40%) grayscale(30%)" }}
-              />
-            </div>
+            <Image
+              src={historyImage}
+              alt={copy.imageAlt}
+              className="mx-auto h-auto w-full max-w-sm lg:max-w-[36rem]"
+            />
           </div>
 
           {/* Content */}
@@ -36,19 +32,10 @@ export function AboutSection({
               {copy.eyebrow}
             </p>
             
-            <div className="space-y-4 text-foreground/80 text-sm leading-relaxed">
+            <div className="space-y-2.5 text-sm leading-[1.32] text-foreground/80">
               {copy.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-            </div>
-
-            <div className="mt-8">
-              <Link
-                href="#alojamiento"
-                className="inline-flex items-center justify-center px-6 py-2.5 border border-foreground/30 text-foreground/80 font-medium text-xs tracking-[0.15em] uppercase hover:bg-foreground/5 transition-colors"
-              >
-                {copy.cta}
-              </Link>
             </div>
           </div>
         </div>

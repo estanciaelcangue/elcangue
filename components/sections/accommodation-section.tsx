@@ -18,32 +18,32 @@ const rooms = [
   {
     id: 1,
     name: "La Malacara",
-    image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2074&auto=format&fit=crop",
+    image: "/images/LA%20MALACARA.webp",
   },
   {
     id: 2,
     name: "La Mora",
-    image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=2074&auto=format&fit=crop",
+    image: "/images/LA%20MORA.webp",
   },
   {
     id: 3,
     name: "La Tubiana",
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
+    image: "/images/LA%20TUBIANA.webp",
   },
   {
     id: 4,
     name: "La Rosilla",
-    image: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=2070&auto=format&fit=crop",
+    image: "/images/LA%20ROSILLA.webp",
   },
   {
     id: 5,
     name: "La Gateada",
-    image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070&auto=format&fit=crop",
+    image: "/images/LA%20GATEADA.webp",
   },
   {
     id: 6,
     name: "La Zaina",
-    image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2070&auto=format&fit=crop",
+    image: "/images/LA%20ZAINA.webp",
   },
 ]
 
