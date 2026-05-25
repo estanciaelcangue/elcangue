@@ -6,6 +6,7 @@ import { BadgeCheck, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react
 import { Reveal } from "@/components/animations/reveal"
 import { defaultLocale } from "@/lib/i18n/config"
 import { getDictionary, type Dictionary } from "@/lib/i18n/dictionaries"
+import type { PlaceReview } from "@/app/api/reviews/route"
 
 type TestimonialsSectionProps = {
   dictionary?: Dictionary
@@ -18,6 +19,7 @@ type GuestReview = {
   rating: number
   source: "Google"
   avatar: string
+  time?: number
 }
 
 const fallbackAvatars = [
@@ -26,19 +28,50 @@ const fallbackAvatars = [
   "/placeholder-user.jpg",
 ]
 
+function mapPlaceReview(r: PlaceReview, index: number): GuestReview {
+  return {
+    id: `google-review-${r.time ?? index}`,
+    name: r.author_name,
+    text: r.text,
+    rating: r.rating,
+    source: "Google",
+    avatar: r.profile_photo_url || fallbackAvatars[index % fallbackAvatars.length],
+    time: r.time,
+  }
+}
+
 export function TestimonialsSection({
   dictionary = getDictionary(defaultLocale),
 }: TestimonialsSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [reviews, setReviews] = useState<GuestReview[]>([])
   const copy = dictionary.home.testimonials
 
-  const reviews: GuestReview[] = copy.items.map((item, index) => ({
-    ...item,
-    id: `guest-review-${index + 1}`,
-    source: "Google",
-    avatar: fallbackAvatars[index] ?? fallbackAvatars[0],
-  }))
+  // Seed with hardcoded reviews immediately, then override with live data
+  useEffect(() => {
+    const fallback: GuestReview[] = copy.items.map((item, index) => ({
+      ...item,
+      id: `guest-review-${index + 1}`,
+      source: "Google",
+      avatar: fallbackAvatars[index] ?? fallbackAvatars[0],
+    }))
+    setReviews(fallback)
+
+    fetch("/api/reviews")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { reviews: PlaceReview[] } | null) => {
+        if (!data?.reviews?.length) return
+        // Only show reviews with text
+        const live = data.reviews
+          .filter((r) => r.text?.trim())
+          .map(mapPlaceReview)
+        if (live.length > 0) setReviews(live)
+      })
+      .catch(() => {
+        // Keep fallback reviews on error
+      })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (isPaused || reviews.length <= 1) return
@@ -59,6 +92,8 @@ export function TestimonialsSection({
   }
 
   const current = reviews[currentIndex]
+
+  if (!current) return null
 
   return (
     <Reveal
@@ -103,6 +138,7 @@ export function TestimonialsSection({
                     fill
                     className="object-cover"
                     sizes="80px"
+                    unoptimized
                   />
                 </div>
               </div>
