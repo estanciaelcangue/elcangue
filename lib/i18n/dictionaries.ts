@@ -44,7 +44,7 @@ const es = {
   },
   footer: {
     contactTitle: "Contactanos",
-    address: "Ruta 3 km 358.5, Paysandú, Uruguay",
+    address: "Ruta 3 km 358,5, Paysandú, Uruguay",
   },
   home: {
     hero: {
@@ -69,7 +69,27 @@ const es = {
         "De esta vecindad fortuita nació una boda y de allí una familia que llegó a Uruguay por los años 20 en busca de nuevos horizontes y establecer raíces. Así comenzó nuestra historia en El Cangüé.",
       ],
     },
+    posada: {
+      eyebrow: "Descanso de campo",
+      title: "La Posada",
+      imageAlt: "Posada de Estancia El Cangüé",
+      paragraphs: [
+        "La Estancia El Cangüé se encuentra ubicada sobre Ruta 3, en el km 358,5, a unos kilómetros de Paysandú, en un entorno natural ideal para descansar y disfrutar del campo.",
+        "La posada ofrece un ambiente tranquilo, cómodo y familiar, con habitaciones pensadas para una estadía confortable, espacios comunes para compartir y un salón con TV para disfrutar momentos de descanso.",
+        "Durante la estadía se pueden realizar distintas actividades al aire libre, recorrer la estancia, disfrutar de la naturaleza y conectar con la calma del lugar.",
+      ],
+      highlights: [
+        "Ubicación: Ruta 3, km 358,5",
+        "A unos kilómetros de Paysandú",
+        "Habitaciones confortables",
+        "Salón con TV",
+        "Actividades al aire libre",
+        "Entorno natural y familiar",
+      ],
+    },
     accommodation: {
+      eyebrow: "Descanso con historia",
+      title: "nuestras habitaciones",
       roomAlt: "Habitación",
     },
     testimonials: {
@@ -200,7 +220,27 @@ export const dictionaries = {
           "From that chance neighborhood came a wedding, and from that wedding a family that arrived in Uruguay in the 1920s seeking new horizons. That is how our story in El Cangüé began.",
         ],
       },
+      posada: {
+        eyebrow: "Countryside rest",
+        title: "The Inn",
+        imageAlt: "Estancia El Cangüé inn",
+        paragraphs: [
+          "Estancia El Cangüé is located on Route 3, at km 358.5, a few kilometers from Paysandú, in a natural setting ideal for resting and enjoying the countryside.",
+          "The inn offers a calm, comfortable, and familiar atmosphere, with rooms designed for a comfortable stay, shared spaces, and a TV lounge for moments of rest.",
+          "During your stay, you can enjoy outdoor activities, explore the estancia, take in nature, and connect with the quiet rhythm of the place.",
+        ],
+        highlights: [
+          "Location: Route 3, km 358.5",
+          "A few kilometers from Paysandú",
+          "Comfortable rooms",
+          "TV lounge",
+          "Outdoor activities",
+          "Natural and familiar setting",
+        ],
+      },
       accommodation: {
+        eyebrow: "Rest with history",
+        title: "our rooms",
         roomAlt: "Room",
       },
       testimonials: {
@@ -326,7 +366,27 @@ export const dictionaries = {
           "De ce voisinage fortuit naquit un mariage, puis une famille arrivée en Uruguay dans les années 1920 à la recherche de nouveaux horizons. Ainsi commença notre histoire à El Cangüé.",
         ],
       },
+      posada: {
+        eyebrow: "Repos à la campagne",
+        title: "L'auberge",
+        imageAlt: "Auberge de l'Estancia El Cangüé",
+        paragraphs: [
+          "L'Estancia El Cangüé est située sur la Route 3, au km 358,5, à quelques kilomètres de Paysandú, dans un environnement naturel idéal pour se reposer et profiter de la campagne.",
+          "L'auberge offre une ambiance calme, confortable et familiale, avec des chambres pensées pour un séjour agréable, des espaces communs et un salon avec TV pour profiter de moments de repos.",
+          "Pendant le séjour, il est possible de réaliser différentes activités en plein air, parcourir l'estancia, profiter de la nature et se connecter au calme du lieu.",
+        ],
+        highlights: [
+          "Localisation : Route 3, km 358,5",
+          "À quelques kilomètres de Paysandú",
+          "Chambres confortables",
+          "Salon avec TV",
+          "Activités en plein air",
+          "Environnement naturel et familial",
+        ],
+      },
       accommodation: {
+        eyebrow: "Repos avec histoire",
+        title: "nos chambres",
         roomAlt: "Chambre",
       },
       testimonials: {
@@ -427,7 +487,7 @@ export const dictionaries = {
     },
     footer: {
       contactTitle: "Fale conosco",
-      address: "Rota 3 km 358.5, Paysandú, Uruguai",
+      address: "Rota 3 km 358,5, Paysandú, Uruguai",
     },
     home: {
       hero: {
@@ -452,7 +512,27 @@ export const dictionaries = {
           "Dessa vizinhança fortuita nasceu um casamento e, dele, uma família que chegou ao Uruguai nos anos 1920 em busca de novos horizontes. Assim começou nossa história em El Cangüé.",
         ],
       },
+      posada: {
+        eyebrow: "Descanso no campo",
+        title: "A pousada",
+        imageAlt: "Pousada da Estancia El Cangüé",
+        paragraphs: [
+          "A Estancia El Cangüé está localizada na Rota 3, no km 358,5, a poucos quilômetros de Paysandú, em um ambiente natural ideal para descansar e aproveitar o campo.",
+          "A pousada oferece um ambiente tranquilo, confortável e familiar, com quartos pensados para uma estadia confortável, espaços comuns e salão com TV para desfrutar momentos de descanso.",
+          "Durante a estadia, é possível realizar diferentes atividades ao ar livre, percorrer a estancia, aproveitar a natureza e conectar-se com a calma do lugar.",
+        ],
+        highlights: [
+          "Localização: Rota 3, km 358,5",
+          "A poucos quilômetros de Paysandú",
+          "Quartos confortáveis",
+          "Salão com TV",
+          "Atividades ao ar livre",
+          "Ambiente natural e familiar",
+        ],
+      },
       accommodation: {
+        eyebrow: "Descanso com história",
+        title: "nossos quartos",
         roomAlt: "Quarto",
       },
       testimonials: {

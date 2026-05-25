@@ -34,10 +34,10 @@ export default function DestinationWeddingPage() {
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-4 uppercase">
               Destination Wedding
             </h1>
-            <p className="text-background/60 text-xs tracking-[0.2em] uppercase mb-6">
+            <p className="section-eyebrow-light mb-6">
               — Una boda boutique en el corazon del campo uruguayo —
             </p>
-            <p className="text-background/70 text-sm leading-relaxed max-w-2xl mx-auto">
+            <p className="text-background/75 text-sm leading-[1.32] max-w-2xl mx-auto">
               En El Cangue te ofrecemos una experiencia unica para celebrar tu boda destino en una autentica estancia uruguaya. Rodeados de naturaleza, sin 
               contaminacion sonora ni luminica, aqui el horizonte se funde con el cielo y cada detalle esta pensado para hacer de tu gran dia un recuerdo 
               inolvidable.
@@ -89,7 +89,7 @@ export default function DestinationWeddingPage() {
                       </button>
                       {expandedIndex === index && (
                         <div className="pb-4">
-                          <p className="text-foreground/60 text-sm leading-relaxed">
+                          <p className="text-sm leading-[1.32] text-foreground/80">
                             {item.description}
                           </p>
                         </div>

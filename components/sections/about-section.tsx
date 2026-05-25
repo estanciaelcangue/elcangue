@@ -28,7 +28,7 @@ export function AboutSection({
 
           {/* Content */}
           <div>
-            <p className="text-primary text-xs tracking-[0.25em] uppercase mb-4 font-medium text-center lg:text-left">
+            <p className="section-eyebrow mb-4 text-center lg:text-left">
               {copy.eyebrow}
             </p>
             

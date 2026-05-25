@@ -4,6 +4,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { useState } from "react"
 import { MapPin, Phone, Mail } from "lucide-react"
+import { googleMapsEmbedSrc } from "@/lib/location"
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ export default function ContactoPage() {
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-4 uppercase">
               Contacto
             </h1>
-            <p className="text-background/70 text-sm leading-relaxed max-w-xl mx-auto">
+            <p className="text-background/75 text-sm leading-[1.32] max-w-xl mx-auto">
               Estamos aqui para ayudarte a planificar tu estadia o evento. 
               No dudes en contactarnos para cualquier consulta.
             </p>
@@ -61,9 +62,9 @@ export default function ContactoPage() {
                     </div>
                     <div>
                       <h3 className="font-medium text-foreground mb-1">Ubicacion</h3>
-                      <p className="text-foreground/70 text-sm leading-relaxed">
-                        Ruta 3 km 358.5<br />
-                        Paysandu, Uruguay
+                      <p className="text-foreground/80 text-sm leading-[1.32]">
+                        Ruta 3 km 358,5<br />
+                        Paysandú, Uruguay
                       </p>
                     </div>
                   </div>
@@ -102,7 +103,7 @@ export default function ContactoPage() {
                 <div className="mt-8">
                   <div className="aspect-video w-full rounded-sm overflow-hidden border border-border">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3378.5!2d-58.0!3d-32.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDE4JzAwLjAiUyA1OMKwMDAnMDAuMCJX!5e0!3m2!1ses!2suy!4v1600000000000!5m2!1ses!2suy"
+                      src={googleMapsEmbedSrc}
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}

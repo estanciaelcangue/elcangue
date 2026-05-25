@@ -72,13 +72,13 @@ export default function PosadaPage() {
         {/* Hero Section */}
         <section className="bg-primary py-16">
           <div className="mx-auto max-w-4xl px-4 text-center">
-            <p className="text-background/60 text-xs tracking-[0.2em] uppercase mb-3">
+            <p className="section-eyebrow-light mb-3">
               Posada de Campo
             </p>
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-6">
               RESERVA TU ESTADIA<br />EN LA ESTANCIA
             </h1>
-            <p className="text-background/70 text-sm leading-relaxed max-w-2xl mx-auto">
+            <p className="text-background/75 text-sm leading-[1.32] max-w-2xl mx-auto">
               Ninas de principio de nuestro tiempo ya, con los mismos colores, blancos puros que blanquean y refrescan nuestras habitaciones. Un 
               abanico de distintas opciones que van desde la habitacion simple del casco historico para quien busca descansar, volver 
               a tiempo a despertarse, disfrutar del bano y darse, con sus sencillas y desayunos, cuidadas ideas y lujos, para los que gusten atencion de sistema auto 
@@ -114,14 +114,14 @@ export default function PosadaPage() {
                     <h2 className="font-serif text-2xl sm:text-3xl text-title mb-4 uppercase">
                       {room.name}
                     </h2>
-                    <p className="text-foreground/70 text-sm leading-relaxed mb-6">
+                    <p className="text-foreground/80 text-sm leading-[1.32] mb-6">
                       {room.description}
                     </p>
                     
                     {/* Amenities */}
                     <ul className="space-y-2">
                       {room.amenities.map((amenity, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-foreground/60 text-sm">
+                        <li key={idx} className="flex items-center gap-2 text-foreground/70 text-sm leading-[1.32]">
                           <AmenityIcon amenity={amenity} />
                           <span>{amenity}</span>
                         </li>

@@ -96,8 +96,14 @@ export function AccommodationSection({
   )
 
   return (
-    <section ref={sectionRef} id="alojamiento" className="py-4 bg-background">
+    <section ref={sectionRef} id="alojamiento" className="bg-background pb-4 pt-12 lg:pt-16">
       <div className="mx-auto max-w-7xl px-0">
+        <div className="mx-auto mb-10 max-w-2xl px-4 text-center sm:px-6 lg:mb-12 lg:px-8">
+          <h2 className="section-eyebrow">
+            {copy.title}
+          </h2>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
           {rooms.map((room) => (
             <Link

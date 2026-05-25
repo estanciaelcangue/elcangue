@@ -35,13 +35,13 @@ export function EventsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <p className="text-primary text-sm tracking-[0.2em] uppercase mb-4 font-medium">
+          <p className="section-eyebrow mb-4">
             Eventos
           </p>
           <h2 className="font-serif text-4xl sm:text-5xl text-title mb-6 leading-tight">
             Momentos que perduran
           </h2>
-          <p className="text-foreground/70 leading-relaxed">
+          <p className="text-sm leading-[1.32] text-foreground/80">
             Convierte tu evento en una experiencia extraordinaria. La belleza natural 
             de la estancia es el escenario perfecto para crear recuerdos inolvidables.
           </p>
@@ -77,14 +77,14 @@ export function EventsSection() {
                   </div>
                   <h3 className="font-serif text-3xl text-title">{event.name}</h3>
                 </div>
-                <p className="text-foreground/70 leading-relaxed mb-6">
+                <p className="mb-6 text-sm leading-[1.32] text-foreground/80">
                   {event.description}
                 </p>
                 
                 {/* Features */}
                 <ul className="grid grid-cols-2 gap-3 mb-8">
                   {event.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-foreground/70 text-sm">
+                    <li key={feature} className="flex items-center gap-2 text-sm leading-[1.32] text-foreground/80">
                       <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                       {feature}
                     </li>
