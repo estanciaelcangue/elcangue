@@ -52,13 +52,13 @@ export function ExperiencesSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <p className="text-primary text-sm tracking-[0.2em] uppercase mb-4 font-medium">
+          <p className="section-eyebrow mb-4">
             Experiencias
           </p>
           <h2 className="font-serif text-4xl sm:text-5xl text-title mb-6 leading-tight">
             Vive el campo uruguayo
           </h2>
-          <p className="text-foreground/70 leading-relaxed">
+          <p className="text-sm leading-[1.32] text-foreground/80">
             Cada actividad esta disenada para conectarte con la esencia de nuestra tierra, 
             desde el amanecer cabalgando hasta las noches estrelladas junto al fogon.
           </p>
@@ -90,7 +90,7 @@ export function ExperiencesSection() {
                   </div>
                   <h3 className="font-serif text-2xl text-background">{exp.name}</h3>
                 </div>
-                <p className="text-background/80 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <p className="text-sm leading-[1.32] text-background/80 opacity-0 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 group-hover:opacity-100">
                   {exp.description}
                 </p>
               </div>

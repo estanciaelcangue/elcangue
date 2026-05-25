@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { getRequestLocale } from "@/lib/i18n/server"
 import { localizePath } from "@/lib/i18n/navigation"
+import { googleMapsEmbedSrc } from "@/lib/location"
 
 export default async function EventosPage() {
   const locale = await getRequestLocale()
@@ -27,16 +28,16 @@ export default async function EventosPage() {
             <h2 className="font-serif text-4xl sm:text-5xl text-title mb-6 italic" style={{ fontFamily: "'Dancing Script', cursive, serif" }}>
               Celebraciones
             </h2>
-            <p className="text-foreground/70 text-sm leading-relaxed mb-4">
+            <p className="text-foreground/80 text-sm leading-[1.32] mb-4">
               Bodas, cumpleanos, aniversarios, encuentros, egresados... todo se celebra en El Cangue! Desde 
               reuniones intimas hasta eventos para 400 personas. Cada propuesta es personalizada.
             </p>
-            <p className="text-foreground/70 text-sm leading-relaxed mb-4">
+            <p className="text-foreground/80 text-sm leading-[1.32] mb-4">
               Ofrecemos entrevistas en la Estancia para evaluar opciones y definir el servicio. Nuestro equipo puede 
               encargarse de toda la planificacion, de principio a fin. Contamos con un grupo de proveedores profesionales 
               y confiables.
             </p>
-            <p className="text-foreground/70 text-sm leading-relaxed">
+            <p className="text-foreground/80 text-sm leading-[1.32]">
               Nuestra especialidad son las <strong>bodas</strong>. El Rosedal y nuestra estructura transparente de 400 m2, completamente 
               inmersa en el jardin, crean un entorno magico bajo el cielo estrellado.
             </p>
@@ -59,13 +60,13 @@ export default async function EventosPage() {
             {/* Content */}
             <div className="flex items-center bg-background p-8 lg:p-12">
               <div>
-                <p className="text-coral text-xs tracking-[0.2em] uppercase mb-2 italic">
+                <p className="section-eyebrow mb-2">
                   Decoracion floral
                 </p>
                 <h3 className="font-serif text-xl sm:text-2xl text-title mb-4 uppercase">
                   Decoracion de Eventos
                 </h3>
-                <p className="text-foreground/70 text-sm leading-relaxed mb-6">
+                <p className="text-foreground/80 text-sm leading-[1.32] mb-6">
                   Uno de los puntos destacados de nuestra propuesta. Ser floristas y 
                   cultivar nuestras propias flores nos permite que <strong>cada boda sea 
                   unica</strong>. Nos motiva la reaccion de los invitados ante la belleza de los 
@@ -88,19 +89,19 @@ export default async function EventosPage() {
             {/* Content */}
             <div className="flex items-center bg-background p-8 lg:p-12 order-2 lg:order-1">
               <div>
-                <p className="text-coral text-xs tracking-[0.2em] uppercase mb-2 italic">
+                <p className="section-eyebrow mb-2">
                   Para empresas
                 </p>
                 <h3 className="font-serif text-xl sm:text-2xl text-title mb-4 uppercase">
                   Eventos Empresariales
                 </h3>
-                <p className="text-foreground/70 text-sm leading-relaxed mb-4">
+                <p className="text-foreground/80 text-sm leading-[1.32] mb-4">
                   Empresas de distintos rubros, desde el sector forestal hasta 
                   aseguradoras, eligen El Cangue para sus encuentros corporativos. 
                   Nuestro entorno natural, libre de ruidos y con un servicio cuidado, 
                   favorece el foco, la creatividad y el bienestar.
                 </p>
-                <p className="text-foreground/70 text-sm leading-relaxed mb-6">
+                <p className="text-foreground/80 text-sm leading-[1.32] mb-6">
                   Ofrecemos un servicio completamente personalizado, 
                   adaptandonos a las necesidades de cada cliente: equipamiento, 
                   gastronomia, alojamiento, entretenimiento y espacios de trabajo.
@@ -132,21 +133,21 @@ export default async function EventosPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Info */}
               <div>
-                <h3 className="text-xs tracking-[0.2em] uppercase text-foreground/60 mb-6 border-t border-border pt-6">
+                <h3 className="section-eyebrow-muted mb-6 border-t border-border pt-6">
                   Contactanos
                 </h3>
-                <div className="space-y-3 text-sm text-foreground/70">
-                  <p>Paysandu, Departamento de Paysandu, Uruguay</p>
+                <div className="space-y-3 text-sm leading-[1.32] text-foreground/80">
+                  <p>Ruta 3 km 358,5, Paysandú, Uruguay</p>
                   <p>+598 99 726 883</p>
                   <p>eventos@estanciaelcangue.com.uy</p>
                 </div>
                 
-                <h3 className="text-xs tracking-[0.2em] uppercase text-foreground/60 mt-8 mb-4 border-t border-border pt-6">
+                <h3 className="section-eyebrow-muted mt-8 mb-4 border-t border-border pt-6">
                   Encontranos
                 </h3>
                 <div className="aspect-video w-full bg-accent/30 rounded-sm overflow-hidden">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3378.5!2d-58.0!3d-32.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDE4JzAwLjAiUyA1OMKwMDAnMDAuMCJX!5e0!3m2!1ses!2suy!4v1600000000000!5m2!1ses!2suy"
+                    src={googleMapsEmbedSrc}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -159,7 +160,7 @@ export default async function EventosPage() {
 
               {/* Form */}
               <div className="border border-border p-6">
-                <h3 className="text-xs tracking-[0.2em] uppercase text-foreground/60 mb-6 text-center">
+                <h3 className="section-eyebrow-muted mb-6 text-center">
                   Organiza tu Evento en la Estancia
                 </h3>
                 <form className="space-y-4">

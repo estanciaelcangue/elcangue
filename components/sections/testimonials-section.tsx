@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Image from "next/image"
 import { BadgeCheck, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react"
 import { Reveal } from "@/components/animations/reveal"
 import { defaultLocale } from "@/lib/i18n/config"
@@ -16,27 +17,45 @@ type GuestReview = {
   text: string
   rating: number
   source: "Google"
+  avatar: string
 }
+
+const fallbackAvatars = [
+  "/placeholder-user.jpg",
+  "/placeholder-user.jpg",
+  "/placeholder-user.jpg",
+]
 
 export function TestimonialsSection({
   dictionary = getDictionary(defaultLocale),
 }: TestimonialsSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const copy = dictionary.home.testimonials
 
-  // Keep this adapter small so Google Reviews can replace the dictionary items later.
   const reviews: GuestReview[] = copy.items.map((item, index) => ({
     ...item,
     id: `guest-review-${index + 1}`,
     source: "Google",
+    avatar: fallbackAvatars[index] ?? fallbackAvatars[0],
   }))
 
+  useEffect(() => {
+    if (isPaused || reviews.length <= 1) return
+
+    const timer = window.setInterval(() => {
+      setCurrentIndex((index) => (index === reviews.length - 1 ? 0 : index + 1))
+    }, 6500)
+
+    return () => window.clearInterval(timer)
+  }, [isPaused, reviews.length])
+
   const goToPrevious = () => {
-    setCurrentIndex(currentIndex === 0 ? reviews.length - 1 : currentIndex - 1)
+    setCurrentIndex((index) => (index === 0 ? reviews.length - 1 : index - 1))
   }
 
   const goToNext = () => {
-    setCurrentIndex(currentIndex === reviews.length - 1 ? 0 : currentIndex + 1)
+    setCurrentIndex((index) => (index === reviews.length - 1 ? 0 : index + 1))
   }
 
   const current = reviews[currentIndex]
@@ -44,20 +63,22 @@ export function TestimonialsSection({
   return (
     <Reveal
       as="section"
-      className="relative overflow-hidden bg-primary py-20 sm:py-24"
+      className="relative overflow-hidden bg-primary py-14 sm:py-16"
       stagger="[data-tst-item]"
+      y={24}
+      duration={0.65}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-background/25" />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div data-tst-item className="mx-auto mb-9 max-w-3xl text-center sm:mb-12">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/10 px-4 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-background/85 shadow-[0_18px_60px_rgba(25,35,18,0.16)] backdrop-blur-sm">
+        <div data-tst-item className="mx-auto mb-6 max-w-3xl text-center sm:mb-8">
+          <div className="mb-4 inline-flex items-center gap-2 border border-background/20 bg-background/10 px-4 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-background/85 backdrop-blur-sm">
             <BadgeCheck className="size-3.5 text-coral" />
             <span>Reseñas verificadas de Google</span>
           </div>
-          <h2 className="font-sans text-balance text-3xl font-light tracking-normal text-background sm:text-5xl">
+          <h2 className="font-serif text-3xl uppercase leading-tight text-background sm:text-4xl">
             {copy.heading}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-background/68 sm:text-base">
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-[1.32] text-background/75">
             Opiniones reales de quienes eligieron la calma del campo y la calidez de la estancia.
           </p>
         </div>
@@ -65,56 +86,75 @@ export function TestimonialsSection({
         <article
           data-tst-item
           aria-live="polite"
-          className="relative mx-auto max-w-4xl overflow-hidden border border-background/18 bg-background/[0.09] px-5 py-6 text-background shadow-[0_30px_100px_rgba(28,39,18,0.26)] backdrop-blur-md sm:px-10 sm:py-10"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+          className="relative mx-auto min-h-[18rem] max-w-5xl overflow-hidden border border-background/18 bg-background/[0.08] px-5 py-5 text-background backdrop-blur-md sm:min-h-[16rem] sm:px-7 sm:py-6"
         >
           <div aria-hidden="true" className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-background/45 to-transparent" />
-          <div className="grid gap-6 sm:grid-cols-[auto_1fr] sm:gap-8">
-            <div className="flex items-start justify-between sm:block">
-              <span className="inline-flex size-12 items-center justify-center rounded-full border border-background/20 bg-background/10 text-background/75 sm:size-14">
-                <Quote className="size-5" />
-              </span>
-              <div className="flex items-center gap-1 rounded-full border border-background/15 bg-primary/25 px-3 py-1.5 sm:mt-7">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star
-                    key={index}
-                    className={`size-3.5 ${
-                      index < current.rating
-                        ? "fill-coral text-coral"
-                        : "fill-transparent text-background/25"
-                    }`}
+          <div key={current.id} className="grid animate-in fade-in slide-in-from-bottom-2 duration-500 gap-5 md:grid-cols-[10.5rem_1fr] md:gap-7">
+            <div className="flex items-center gap-3 border-b border-background/12 pb-4 md:block md:border-b-0 md:border-r md:pb-0 md:pr-6">
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-full border border-background/28 bg-background/12 p-1 md:size-20">
+                <div className="relative size-full overflow-hidden rounded-full bg-background">
+                  <Image
+                    src={current.avatar}
+                    alt={`Foto de ${current.name}`}
+                    fill
+                    className="object-cover"
+                    sizes="80px"
                   />
-                ))}
+                </div>
+              </div>
+
+              <div className="min-w-0 md:mt-4">
+                <p className="text-sm font-semibold leading-[1.32] text-background">
+                  {current.name}
+                </p>
+                <p className="mt-1 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.12em] text-background/62">
+                  <BadgeCheck className="size-3" />
+                  {current.source} review
+                </p>
               </div>
             </div>
 
-            <div>
-              <blockquote className="max-w-3xl text-pretty font-sans text-base font-light leading-7 text-background/95 sm:text-xl sm:leading-8">
+            <div className="flex min-h-[9rem] flex-col justify-center">
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <span className="inline-flex size-8 items-center justify-center border border-background/18 bg-background/10 text-background/70">
+                  <Quote className="size-3.5" />
+                </span>
+                <div className="flex items-center gap-1 border border-background/10 bg-primary/25 px-2.5 py-1">
+                  <span className="sr-only">{current.rating} estrellas</span>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star
+                      key={index}
+                      className={`size-2.5 ${
+                        index < current.rating
+                          ? "fill-coral text-coral"
+                          : "fill-transparent text-background/25"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <blockquote className="max-w-3xl text-sm leading-[1.32] text-background/90">
                 "{current.text}"
               </blockquote>
-              <footer className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-background/14 pt-5">
-                <p className="text-sm font-semibold tracking-[0.08em] text-background">
-                  {current.name}
-                </p>
-                <span className="h-1 w-1 rounded-full bg-background/35" />
-                <p className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.14em] text-background/62">
-                  <BadgeCheck className="size-3.5" />
-                  {current.source} review
-                </p>
-              </footer>
             </div>
           </div>
         </article>
 
-        <div data-tst-item className="mt-7 flex items-center justify-center gap-3 sm:mt-9">
+        <div data-tst-item className="mt-5 flex items-center justify-center gap-3 sm:mt-6">
           <button
             onClick={goToPrevious}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-background/22 bg-background/[0.08] text-background/80 backdrop-blur-sm transition hover:border-background/35 hover:bg-background/15 hover:text-background"
+            className="inline-flex size-9 items-center justify-center rounded-full border border-background/22 bg-background/[0.08] text-background/80 backdrop-blur-sm transition hover:border-background/35 hover:bg-background/15 hover:text-background"
             aria-label={copy.previous}
           >
             <ChevronLeft className="size-4" />
           </button>
 
-          <div className="flex min-h-11 items-center gap-2 rounded-full border border-background/15 bg-background/[0.08] px-4 backdrop-blur-sm">
+          <div className="flex min-h-9 items-center gap-2 rounded-full border border-background/15 bg-background/[0.08] px-4 backdrop-blur-sm">
             {reviews.map((review, index) => (
               <button
                 key={review.id}
@@ -132,7 +172,7 @@ export function TestimonialsSection({
 
           <button
             onClick={goToNext}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-background/22 bg-background/[0.08] text-background/80 backdrop-blur-sm transition hover:border-background/35 hover:bg-background/15 hover:text-background"
+            className="inline-flex size-9 items-center justify-center rounded-full border border-background/22 bg-background/[0.08] text-background/80 backdrop-blur-sm transition hover:border-background/35 hover:bg-background/15 hover:text-background"
             aria-label={copy.next}
           >
             <ChevronRight className="size-4" />

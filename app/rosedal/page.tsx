@@ -37,7 +37,7 @@ export default async function RosedalPage() {
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-2 uppercase">
               Nuestro Rosedal
             </h1>
-            <p className="text-background/60 text-xs tracking-[0.2em] uppercase">
+            <p className="section-eyebrow-light">
               — El alma viva de El Cangue —
             </p>
           </div>
@@ -58,7 +58,7 @@ export default async function RosedalPage() {
               </div>
 
               {/* Content */}
-              <div className="space-y-6 text-foreground/70 text-sm leading-relaxed">
+              <div className="space-y-2.5 text-sm leading-[1.32] text-foreground/80">
                 <p>
                   El jardin de la Estancia es nuestra &quot;via lactea&quot;. Esta en constante evolucion, 
                   muta, se reinventa con las estaciones, lo que sin duda lo hace fascinante. Es un 
@@ -92,7 +92,7 @@ export default async function RosedalPage() {
                   las cuales mas de 120 corresponden a germoplasma de rosa antiguo. 
                   Figuran en esta coleccion:
                 </p>
-                <ul className="list-disc list-inside space-y-1 text-foreground/60">
+                <ul className="list-inside list-disc space-y-1 text-foreground/70">
                   <li>Te</li>
                   <li>Noisette</li>
                   <li>Polyantha</li>
@@ -101,7 +101,7 @@ export default async function RosedalPage() {
                   <li>Hibridos perpetuos</li>
                   <li>Primermnas</li>
                 </ul>
-                <p className="text-foreground/50 italic">Y muchas mas...</p>
+                <p className="text-foreground/60 italic">Y muchas mas...</p>
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@ export default async function RosedalPage() {
                 <h2 className="font-serif text-2xl sm:text-3xl text-title mb-6 uppercase">
                   Nuestro Vivero
                 </h2>
-                <div className="space-y-4 text-foreground/70 text-sm leading-relaxed">
+                <div className="space-y-2.5 text-sm leading-[1.32] text-foreground/80">
                   <p>
                     En nuestra estancia funciona un vivero orientado principalmente a la 
                     reproduccion de rosales y plantas acompanantes: herbaceas perennes, 
@@ -179,7 +179,7 @@ export default async function RosedalPage() {
                 <h2 className="font-serif text-2xl sm:text-3xl text-title mb-6 uppercase">
                   Nuestro Blend de Te<br />&quot;Abuela Anita&quot;
                 </h2>
-                <p className="text-foreground/70 text-sm leading-relaxed">
+                <p className="text-sm leading-[1.32] text-foreground/80">
                   Uno de nuestros orgullos mas queridos. El blend Rosa como alma a los 
                   petalos de rosa, pero en un equilibrio mas rico alon de pruebas, elegimos un 
                   total de de 1492, con interes en Uruguay fue incorporado en cona 
@@ -206,7 +206,7 @@ export default async function RosedalPage() {
               <h2 className="font-serif text-2xl sm:text-3xl text-title mb-2 uppercase">
                 Nuestras Rosas
               </h2>
-              <p className="text-foreground/50 text-xs tracking-[0.2em] uppercase">
+              <p className="section-eyebrow-muted">
                 — Variedades creadas en El Cangue —
               </p>
             </div>
@@ -227,7 +227,7 @@ export default async function RosedalPage() {
                     <h3 className="font-serif text-sm text-title mb-1 uppercase">
                       {rose.name}
                     </h3>
-                    <p className="text-foreground/60 text-xs leading-relaxed">
+                    <p className="text-xs leading-[1.32] text-foreground/70">
                       {rose.description}
                     </p>
                   </div>
@@ -242,7 +242,7 @@ export default async function RosedalPage() {
           <div className="mx-auto max-w-4xl px-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               <div>
-                <p className="text-background/60 text-xs tracking-[0.2em] uppercase mb-2">
+                <p className="section-eyebrow-light mb-2">
                   Disponibles desde Septiembre 2024
                 </p>
                 <h3 className="font-serif text-xl sm:text-2xl text-background uppercase">

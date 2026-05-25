@@ -106,6 +106,20 @@
   }
 }
 
+@layer components {
+  .section-eyebrow {
+    @apply font-serif text-[17px] font-normal uppercase tracking-[0.22em] text-primary lg:text-[22px] lg:tracking-[0.28em];
+  }
+
+  .section-eyebrow-light {
+    @apply font-serif text-[17px] font-normal uppercase tracking-[0.22em] text-background/70 lg:text-[22px] lg:tracking-[0.28em];
+  }
+
+  .section-eyebrow-muted {
+    @apply font-serif text-[17px] font-normal uppercase tracking-[0.22em] text-foreground/60 lg:text-[22px] lg:tracking-[0.28em];
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

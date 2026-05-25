@@ -1,16 +1,15 @@
 "use client"
 
 import Image from "next/image"
-import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react"
+import { Instagram, MessageCircle } from "lucide-react"
 import ShinyText from "./ShinyText"
 import { usePathname } from "next/navigation"
 import { getDictionary } from "@/lib/i18n/dictionaries"
 import { getLocaleFromPathnameOrDefault, localizePath } from "@/lib/i18n/navigation"
+import footerPattern from "@/public/images/FOOTER ROSAS.webp"
 
-const socialLinks = [
-  { href: "https://facebook.com", label: "Facebook", icon: Facebook },
-  { href: "https://instagram.com", label: "Instagram", icon: Instagram },
-]
+const instagramHref = "https://instagram.com"
+const whatsappHref = "https://wa.me/59899726883"
 
 export function Footer() {
   const pathname = usePathname()
@@ -18,79 +17,58 @@ export function Footer() {
   const dictionary = getDictionary(locale)
 
   return (
-    <footer className="bg-primary text-background">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-        <div className="grid gap-10 border-b border-background/14 pb-11 lg:grid-cols-[1.05fr_0.95fr_0.65fr] lg:gap-14">
-          <div className="max-w-md">
+    <footer className="relative overflow-hidden bg-primary text-background">
+      <Image
+        src={footerPattern}
+        alt=""
+        fill
+        aria-hidden="true"
+        className="object-cover"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-primary/82" aria-hidden="true" />
+      <div className="relative mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+        <div className="relative grid min-h-[100px] items-center gap-5 border-b border-background/14 pb-4 text-center md:grid-cols-[1fr_auto_1fr] md:text-left">
+          <p className="mx-auto max-w-xs font-serif text-base leading-[1.2] text-background/86 md:mx-0">
+            Una experiencia de campo para descansar, reconectar y disfrutar.
+          </p>
+
+          <div className="md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
             <a href={localizePath("/", locale)} className="inline-flex items-center">
               <Image
                 src="/images/logo.png"
                 alt={dictionary.site.name}
-                width={150}
-                height={90}
-                className="h-auto w-32 brightness-[1.18]"
+                width={170}
+                height={102}
+                className="h-auto w-24 brightness-0 invert"
               />
             </a>
-            <p className="mt-5 max-w-sm font-sans text-base font-light leading-7 text-background/82">
-              Una experiencia de campo para descansar, reconectar y disfrutar.
-            </p>
           </div>
 
-          <div>
-            <p className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-background/62">
-              {dictionary.footer.contactTitle}
-            </p>
-            <div className="grid gap-4">
-              <div className="flex items-start gap-3">
-                <MapPin className="mt-1 size-4 shrink-0 text-background/58" strokeWidth={1.8} />
-                <p className="text-sm leading-6 text-background/78">
-                  Ruta 3 km 358.5<br />
-                  Paysandú, Uruguay
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <Mail className="mt-1 size-4 shrink-0 text-background/58" strokeWidth={1.8} />
-                <div className="grid gap-1 text-sm leading-6 text-background/78">
-                  <a href="mailto:info@estanciaelcangue.com" className="transition-colors hover:text-background">
-                    info@estanciaelcangue.com
-                  </a>
-                  <a href="mailto:reservas@estanciaelcangue.com.uy" className="transition-colors hover:text-background">
-                    reservas@estanciaelcangue.com.uy
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="size-4 shrink-0 text-background/58" strokeWidth={1.8} />
-                <a href="tel:+59899726883" className="text-sm text-background/78 transition-colors hover:text-background">
-                  +598 99 726 883
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <p className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-background/62">
-              Redes
-            </p>
-            <div className="flex items-center gap-3 lg:flex-col lg:items-start">
-              {socialLinks.map(({ href, label, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center gap-3 rounded-full border border-background/16 bg-background/[0.08] px-4 text-sm text-background/78 backdrop-blur-sm transition hover:border-background/30 hover:bg-background/14 hover:text-background"
-                  aria-label={label}
-                >
-                  <Icon className="size-4" strokeWidth={1.8} />
-                  <span>{label}</span>
-                </a>
-              ))}
-            </div>
+          <div className="flex flex-col gap-2 md:col-start-3 md:items-end">
+            <a
+              href={instagramHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-9 w-full items-center justify-center gap-3 border border-background/18 bg-background/[0.08] px-4 text-sm text-background/82 backdrop-blur-sm transition hover:border-background/30 hover:bg-background/14 hover:text-background sm:w-64"
+              aria-label="Instagram"
+            >
+              <Instagram className="size-4" strokeWidth={1.8} />
+              <span>Instagram</span>
+            </a>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-9 w-full items-center justify-center gap-3 bg-background px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-background/90 sm:w-64"
+            >
+              <MessageCircle className="size-4" strokeWidth={1.8} />
+              <span>Escribinos por WhatsApp</span>
+            </a>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 pt-6 text-xs text-background/52 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col items-center gap-2 pt-3 text-center text-xs text-background/52 sm:flex-row sm:justify-between sm:text-left">
           <p>© 2026 Estancia El Cangüé. Todos los derechos reservados.</p>
           <a href="https://grupodte.com" target="_blank" rel="noopener noreferrer">
             <ShinyText text="Built by DTE" speed={2} fontSize={11} color="#ffffff80" shineColor="#ffffff" />

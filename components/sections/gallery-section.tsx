@@ -85,13 +85,13 @@ export function GallerySection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-primary text-sm tracking-[0.2em] uppercase mb-4 font-medium">
+          <p className="section-eyebrow mb-4">
             Galeria
           </p>
           <h2 className="font-serif text-4xl sm:text-5xl text-title mb-6 leading-tight">
             Imagenes que inspiran
           </h2>
-          <p className="text-foreground/70 leading-relaxed">
+          <p className="text-sm leading-[1.32] text-foreground/80">
             Cada fotografia captura la esencia de Estancia El Cangue: 
             su naturaleza, tradicion y la calidez que nos define.
           </p>
