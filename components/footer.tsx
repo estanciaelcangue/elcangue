@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Instagram, MessageCircle } from "lucide-react"
+import { Instagram } from "lucide-react"
 import ShinyText from "./ShinyText"
 import { usePathname } from "next/navigation"
 import { getDictionary } from "@/lib/i18n/dictionaries"
@@ -10,6 +10,14 @@ import footerPattern from "@/public/images/FOOTER ROSAS.webp"
 
 const instagramHref = "https://instagram.com"
 const whatsappHref = "https://wa.me/59899726883"
+
+function WhatsAppLogo() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4 fill-current">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347Zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26C2.168 6.443 6.603 2.009 12.055 2.009c2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.993c-.003 5.45-4.437 9.884-9.885 9.884Zm8.413-18.297A11.815 11.815 0 0 0 12.056 0C5.54 0 .232 5.307.23 11.824c0 2.082.543 4.116 1.573 5.907L.13 24l6.412-1.681a11.807 11.807 0 0 0 5.516 1.448h.005c6.516 0 11.823-5.307 11.826-11.824a11.76 11.76 0 0 0-3.464-8.455Z" />
+    </svg>
+  )
+}
 
 export function Footer() {
   const pathname = usePathname()
@@ -62,8 +70,8 @@ export function Footer() {
               rel="noopener noreferrer"
               className="inline-flex min-h-9 w-full items-center justify-center gap-3 bg-background px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-background/90 sm:w-64"
             >
-              <MessageCircle className="size-4" strokeWidth={1.8} />
-              <span>Escribinos por WhatsApp</span>
+              <WhatsAppLogo />
+              <span className="whitespace-nowrap">WHATSAPP</span>
             </a>
           </div>
         </div>

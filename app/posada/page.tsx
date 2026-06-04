@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import Image from "next/image"
-import { Bed, Snowflake, Wifi, Bath, Coffee, Check } from "lucide-react"
+import { Bed, Snowflake, Wifi, Bath, Coffee, Check, Heart } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { ReservationForm } from "@/components/sections/reservation-form"
 
@@ -52,21 +52,50 @@ export default async function PosadaPage() {
       <Header />
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="bg-primary py-16">
-          <div className="mx-auto max-w-4xl px-4 text-center">
-            <p className="section-eyebrow-light mb-3">Posada de Campo</p>
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-6">
-              RESERVA TU ESTADÍA<br />EN LA ESTANCIA
+        <section className="relative isolate min-h-[68svh] overflow-hidden bg-primary py-16 sm:py-20 lg:min-h-[74svh]">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            className="absolute inset-0 z-0 h-full w-full object-cover"
+          >
+            <source
+              src="/images/ESTANCIA%20EL%20CANGUE%20-%20VIDEO%20PORTADA.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <div className="absolute inset-0 z-[1] bg-primary/72" aria-hidden="true" />
+          <div
+            className="absolute inset-0 z-[2] bg-gradient-to-b from-foreground/30 via-primary/30 to-primary/82"
+            aria-hidden="true"
+          />
+          <div className="relative z-[3] mx-auto flex min-h-[calc(68svh-8rem)] max-w-5xl items-center px-4 text-center sm:px-6 lg:min-h-[calc(74svh-10rem)] lg:px-8">
+            <div className="mx-auto w-full">
+            <p className="section-eyebrow-light mb-4">Posada de Campo</p>
+            <h1 className="mx-auto mb-6 max-w-3xl font-serif text-3xl leading-[1.08] text-background sm:text-4xl md:text-5xl">
+              Viví una estadía tranquila en la estancia
             </h1>
-            <p className="text-background/75 text-sm leading-[1.32] max-w-2xl mx-auto">
-              Un abanico de distintas opciones que van desde la habitación simple del casco histórico
-              para quien busca descansar, hasta suites boutique con desayuno artesanal incluido.
-              Trato familiar, comida exquisita, servicio de té y café al amanecer de la estancia.
+            <p className="mx-auto max-w-3xl text-sm leading-[1.65] text-background/78 sm:text-base">
+              Un lugar para descansar, compartir y reconectar con la naturaleza. Contamos con distintas
+              opciones de alojamiento, desde habitaciones simples hasta suites boutique, con desayuno
+              incluido, atención cercana y el encanto auténtico de la vida de campo.
             </p>
+            <div className="mx-auto mt-7 flex max-w-3xl items-start gap-3 border-t border-background/18 pt-5 text-left text-xs leading-[1.6] text-background/68 sm:items-center sm:text-center">
+              <Heart className="mt-0.5 size-4 shrink-0 text-background/72 sm:mt-0" strokeWidth={1.7} />
+              <p>
+                Gracias a nuestra comunidad por compartir fotos tan lindas de la estancia y ayudarnos a
+                mostrar este lugar desde una mirada real y cercana.
+              </p>
+            </div>
+            </div>
           </div>
         </section>
 
         {/* Rooms List */}
+        {rooms.length > 0 && (
         <section className="py-16 bg-background">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="space-y-20">
@@ -129,6 +158,7 @@ export default async function PosadaPage() {
             </div>
           </div>
         </section>
+        )}
 
         {/* Reservation Form */}
         <ReservationForm

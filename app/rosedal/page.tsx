@@ -24,6 +24,15 @@ const roseVarieties = [
   },
 ]
 
+const rosedalImages = [
+  "/images/ROSEDAL 1 EL CANGUE 2.webp",
+  "/images/ROSEDAL 1 EL CANGUE 3.webp",
+  "/images/ROSEDAL 1 EL CANGUE 4-1.webp",
+  "/images/ROSEDAL 1 EL CANGUE 4.webp",
+  "/images/ROSEDAL 1 EL CANGUE.webp",
+  "/images/ROSEDAL 1.webp",
+]
+
 export default async function RosedalPage() {
   const locale = await getRequestLocale()
 
@@ -50,7 +59,7 @@ export default async function RosedalPage() {
               {/* Image Carousel */}
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=2070&auto=format&fit=crop"
+                  src={rosedalImages[0]}
                   alt="El Rosedal de El Cangue"
                   fill
                   className="object-cover"
@@ -110,7 +119,7 @@ export default async function RosedalPage() {
         {/* 500 Species Banner */}
         <section className="py-12 bg-primary">
           <div className="mx-auto max-w-4xl px-4 text-center">
-            <p className="font-serif text-3xl sm:text-4xl text-background/90 italic" style={{ fontFamily: "'Dancing Script', cursive, serif" }}>
+            <p className="font-serif text-2xl sm:text-3xl text-background/90 uppercase tracking-[0.12em]">
               mas de 500 especies desde 1450
             </p>
           </div>
@@ -150,7 +159,7 @@ export default async function RosedalPage() {
               {/* Image */}
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=2032&auto=format&fit=crop"
+                  src={rosedalImages[1]}
                   alt="Nuestro vivero"
                   fill
                   className="object-cover"
@@ -167,7 +176,7 @@ export default async function RosedalPage() {
               {/* Image */}
               <div className="relative aspect-square overflow-hidden lg:order-1">
                 <Image
-                  src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=2021&auto=format&fit=crop"
+                  src={rosedalImages[2]}
                   alt="Blend de te Abuela Anita"
                   fill
                   className="object-cover"
@@ -193,7 +202,7 @@ export default async function RosedalPage() {
         {/* New Histories Banner */}
         <section className="py-16 bg-primary">
           <div className="mx-auto max-w-4xl px-4 text-center">
-            <p className="font-serif text-3xl sm:text-4xl text-background/90 italic" style={{ fontFamily: "'Dancing Script', cursive, serif" }}>
+            <p className="font-serif text-2xl sm:text-3xl text-background/90 uppercase tracking-[0.12em]">
               donde nacen nuevas historias
             </p>
           </div>
@@ -216,7 +225,7 @@ export default async function RosedalPage() {
                 <div key={index} className="flex gap-4">
                   <div className="w-20 h-20 flex-shrink-0 overflow-hidden">
                     <Image
-                      src={`https://images.unsplash.com/photo-${index % 2 === 0 ? "1518882605630-8e5e0e21db8e" : "1455659817273-f96807779a8a"}?q=80&w=200&auto=format&fit=crop`}
+                      src={rosedalImages[index + 3] ?? rosedalImages[0]}
                       alt={rose.name}
                       width={80}
                       height={80}

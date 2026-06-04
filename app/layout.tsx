@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   title: 'Estancia El Cangüé | Turismo Rural en Uruguay',
   description: 'Descubrí la magia del campo uruguayo en Estancia El Cangüé. Alojamiento rural, eventos, bodas y experiencias únicas en un entorno natural privilegiado.',
   keywords: ['estancia', 'turismo rural', 'Uruguay', 'bodas', 'eventos', 'alojamiento', 'campo'],
+  icons: {
+    icon: [{ url: '/FAV ICON EL CNAGUE.webp', type: 'image/webp' }],
+    shortcut: [{ url: '/FAV ICON EL CNAGUE.webp', type: 'image/webp' }],
+  },
   openGraph: {
     title: 'Estancia El Cangüé | Turismo Rural en Uruguay',
     description: 'Descubrí la magia del campo uruguayo en Estancia El Cangüé.',
