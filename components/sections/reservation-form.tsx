@@ -42,6 +42,18 @@ type Props = {
   locale?: Locale
 }
 
+function displayBedConfiguration(value: string, locale: Locale) {
+  if (locale === "es") return value
+  const base = value === "Matrimonial"
+    ? { en: "Double", fr: "Double", pt: "Casal" }[locale]
+    : value
+        .replace("camas separadas", { en: "separate beds", fr: "lits séparés", pt: "camas separadas" }[locale])
+        .replace("cama separada", { en: "separate bed", fr: "lit séparé", pt: "cama separada" }[locale])
+        .replace("extras", { en: "extra beds", fr: "lits d’appoint", pt: "extras" }[locale])
+        .replace("extra", { en: "extra bed", fr: "lit d’appoint", pt: "extra" }[locale])
+  return base
+}
+
 const inputClass =
   "w-full rounded-sm border border-primary/12 bg-[#FAF8F2] px-4 py-3 text-sm text-foreground/78 shadow-sm outline-none transition focus:border-primary/45 focus:ring-2 focus:ring-primary/12"
 
@@ -250,7 +262,7 @@ export function ReservationForm({ rooms, locale = "es" }: Props) {
   function onSubmit(values: FormValues) {
     setServerError(null)
     startTransition(async () => {
-      const result = await createReservation(values)
+      const result = await createReservation(values, locale)
       if (result.error) {
         setServerError(result.error)
       } else {
@@ -401,7 +413,7 @@ export function ReservationForm({ rooms, locale = "es" }: Props) {
                                 : "border-primary/22 bg-[#FAF8F2] text-foreground/68 hover:border-primary/45 hover:text-primary"
                             }`}
                           >
-                            {cfg}
+                            {displayBedConfiguration(cfg, locale)}
                           </button>
                         )
                       })}
@@ -531,7 +543,7 @@ export function ReservationForm({ rooms, locale = "es" }: Props) {
                   {copy.accommodation}: <span className="font-medium text-foreground">{selectedRoom.name}</span>
                 </p>
                 <p>
-                  {copy.beds}: <span className="font-medium text-foreground">{selectedBedConfig}</span>
+                  {copy.beds}: <span className="font-medium text-foreground">{displayBedConfiguration(selectedBedConfig, locale)}</span>
                 </p>
               </div>
             )}

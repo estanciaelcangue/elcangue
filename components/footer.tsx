@@ -23,6 +23,12 @@ export function Footer() {
   const pathname = usePathname()
   const locale = getLocaleFromPathnameOrDefault(pathname)
   const dictionary = getDictionary(locale)
+  const experienceText = {
+    es: "Una experiencia de campo para descansar, reconectar y disfrutar.",
+    en: "A countryside experience to rest, reconnect and enjoy.",
+    fr: "Une expérience à la campagne pour se reposer et se reconnecter.",
+    pt: "Uma experiência no campo para descansar, reconectar e aproveitar.",
+  }[locale]
 
   return (
     <footer className="relative overflow-hidden bg-primary text-background">
@@ -38,7 +44,7 @@ export function Footer() {
       <div className="relative mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="relative grid min-h-[100px] items-center gap-5 border-b border-background/14 pb-4 text-center md:grid-cols-[1fr_auto_1fr] md:text-left">
           <p className="mx-auto max-w-xs font-serif text-base leading-[1.2] text-background/86 md:mx-0">
-            Una experiencia de campo para descansar, reconectar y disfrutar.
+            {experienceText}
           </p>
 
           <div className="md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">

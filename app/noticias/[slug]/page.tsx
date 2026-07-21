@@ -112,7 +112,7 @@ export default async function BlogPostPage({
                 {dictionary.common.by} {getAuthorName(typedPost)}
               </span>
               <span className="text-card/80 font-sans text-sm">
-                <PostViewCount postId={typedPost.id} initialCount={typedPost.view_count ?? 0} />
+                <PostViewCount postId={typedPost.id} initialCount={typedPost.view_count ?? 0} locale={locale} />
               </span>
             </div>
             <h1 className="font-serif text-3xl md:text-5xl text-card max-w-4xl">

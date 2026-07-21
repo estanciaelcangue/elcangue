@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { Eye } from "lucide-react"
+import type { Locale } from "@/lib/i18n/config"
 
-export function PostViewCount({ postId, initialCount }: { postId: string; initialCount: number }) {
+export function PostViewCount({ postId, initialCount, locale }: { postId: string; initialCount: number; locale: Locale }) {
   const [count, setCount] = useState(initialCount)
 
   useEffect(() => {
@@ -25,7 +26,9 @@ export function PostViewCount({ postId, initialCount }: { postId: string; initia
   return (
     <span className="flex items-center gap-1">
       <Eye className="size-4" />
-      {count.toLocaleString("es-UY")} {count === 1 ? "vista" : "vistas"}
+      {count.toLocaleString(locale)} {count === 1
+        ? { es: "vista", en: "view", fr: "vue", pt: "visualização" }[locale]
+        : { es: "vistas", en: "views", fr: "vues", pt: "visualizações" }[locale]}
     </span>
   )
 }
