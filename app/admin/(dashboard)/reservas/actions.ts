@@ -9,6 +9,91 @@ import {
   type ManagedReservationStatus,
   type ReservationForNotification,
 } from "@/lib/reservations/status-service"
+import { sendAdminNewReservationEmail } from "@/lib/email"
+import { z } from "zod"
+
+export type ManualReservationState = {
+  error?: string
+  success?: string
+  warning?: string
+}
+
+const manualReservationSchema = z.object({
+  guest_email: z.string().trim().email("Ingresá un email válido."),
+  guest_phone: z.string().trim().min(6, "Ingresá un teléfono válido.").max(40),
+  room_id: z.string().uuid("Seleccioná una habitación."),
+  check_in: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Ingresá la fecha de ingreso."),
+  check_out: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Ingresá la fecha de salida."),
+  bed_config: z.string().trim().min(1, "Seleccioná una configuración."),
+})
+
+export async function createManualReservationAction(
+  _previousState: ManualReservationState,
+  formData: FormData,
+): Promise<ManualReservationState> {
+  await requireAdminSession()
+  const parsed = manualReservationSchema.safeParse(Object.fromEntries(formData))
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Revisá los datos ingresados." }
+  }
+
+  if (parsed.data.check_out <= parsed.data.check_in) {
+    return { error: "La fecha de salida debe ser posterior al ingreso." }
+  }
+
+  const supabase = await createClient()
+  const { data: room, error: roomError } = await supabase
+    .from("rooms")
+    .select("id, name, bed_configs")
+    .eq("id", parsed.data.room_id)
+    .eq("is_active", true)
+    .maybeSingle()
+
+  if (roomError || !room) {
+    return { error: "La habitación seleccionada no está disponible." }
+  }
+
+  if (!(room.bed_configs as string[]).includes(parsed.data.bed_config)) {
+    return { error: "La configuración no corresponde a esa habitación." }
+  }
+
+  const guestName = parsed.data.guest_email.split("@")[0]
+  const { error } = await supabase.from("reservations").insert({
+    ...parsed.data,
+    guest_name: guestName,
+    adults: 2,
+    children: 0,
+    guest_notes: "Reserva cargada manualmente desde el panel.",
+    status: "pending",
+  })
+
+  if (error) {
+    console.error("Error creating manual reservation", error)
+    return { error: "No se pudo crear la reserva." }
+  }
+
+  const emailResult = await sendAdminNewReservationEmail({
+    guestName,
+    guestEmail: parsed.data.guest_email,
+    guestPhone: parsed.data.guest_phone,
+    roomName: room.name,
+    bedConfig: parsed.data.bed_config,
+    checkIn: parsed.data.check_in,
+    checkOut: parsed.data.check_out,
+    adults: 2,
+    children: 0,
+    guestNotes: "Reserva cargada manualmente desde el panel.",
+  })
+
+  revalidatePath("/admin/reservas")
+  return emailResult.error
+    ? {
+        success: "Reserva creada.",
+        warning: `No se pudo enviar el aviso por email: ${emailResult.error}`,
+      }
+    : { success: "Reserva creada y aviso enviado." }
+}
 
 export async function updateReservationStatus(
   id: string,

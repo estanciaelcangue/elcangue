@@ -54,7 +54,9 @@ function formatDate(dateStr: string) {
   })
 }
 
-export async function sendAdminNewReservationEmail(data: ReservationEmailData) {
+export async function sendAdminNewReservationEmail(
+  data: ReservationEmailData,
+): Promise<{ error?: string }> {
   const configurationError = emailConfigurationError()
   if (configurationError) return configurationError
   data = safeEmailData(data)
@@ -135,7 +137,9 @@ export async function sendAdminNewReservationEmail(data: ReservationEmailData) {
   }
 }
 
-export async function sendGuestConfirmationEmail(data: ReservationEmailData) {
+export async function sendGuestConfirmationEmail(
+  data: ReservationEmailData,
+): Promise<{ error?: string }> {
   const configurationError = emailConfigurationError()
   if (configurationError) return configurationError
   const recipient = data.guestEmail
@@ -206,7 +210,7 @@ export async function sendGuestConfirmationEmail(data: ReservationEmailData) {
 export async function sendReservationStatusEmail(
   data: ReservationEmailData,
   status: ManagedReservationStatus,
-) {
+): Promise<{ error?: string }> {
   if (status === "confirmed") {
     return sendGuestConfirmationEmail(data)
   }

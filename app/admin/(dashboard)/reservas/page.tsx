@@ -1,6 +1,7 @@
 import { requireAdminSession } from "@/lib/admin/auth"
 import { createClient } from "@/lib/supabase/server"
 import { ReservationRow } from "./reservation-row"
+import { ManualReservationForm } from "./manual-reservation-form"
 
 export const dynamic = "force-dynamic"
 
@@ -23,6 +24,12 @@ type Reservation = {
   room: { name: string } | null
 }
 
+type RoomOption = {
+  id: string
+  name: string
+  bed_configs: string[]
+}
+
 async function getReservations(status: StatusFilter): Promise<Reservation[]> {
   const supabase = await createClient()
   let query = supabase
@@ -37,6 +44,22 @@ async function getReservations(status: StatusFilter): Promise<Reservation[]> {
   const { data, error } = await query
   if (error || !data) return []
   return data as Reservation[]
+}
+
+async function getRoomOptions(): Promise<RoomOption[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from("rooms")
+    .select("id, name, bed_configs")
+    .eq("is_active", true)
+    .order("sort_order")
+
+  if (error) {
+    console.error("Error loading room options", error)
+    return []
+  }
+
+  return (data ?? []) as RoomOption[]
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -65,7 +88,10 @@ export default async function ReservasPage({
       ? rawStatus
       : "all"
 
-  const reservations = await getReservations(status)
+  const [reservations, rooms] = await Promise.all([
+    getReservations(status),
+    getRoomOptions(),
+  ])
 
   const filters: { value: StatusFilter; label: string }[] = [
     { value: "all", label: "Todas" },
@@ -81,6 +107,8 @@ export default async function ReservasPage({
         <h1 className="text-lg font-semibold text-foreground">Reservas</h1>
         <span className="text-sm text-muted-foreground">{reservations.length} resultado{reservations.length !== 1 ? "s" : ""}</span>
       </div>
+
+      <ManualReservationForm rooms={rooms} />
 
       {/* Filters */}
       <div className="mb-6 flex flex-wrap gap-2">
