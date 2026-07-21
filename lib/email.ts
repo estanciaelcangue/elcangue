@@ -163,6 +163,14 @@ export async function sendGuestConfirmationEmail(
 
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
           <tr>
+            <td style="padding: 6px 0; color: #777; width: 140px;">Email</td>
+            <td style="padding: 6px 0;">${data.guestEmail}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #777;">Teléfono</td>
+            <td style="padding: 6px 0;">${data.guestPhone || "—"}</td>
+          </tr>
+          <tr>
             <td style="padding: 6px 0; color: #777; width: 140px;">Habitación</td>
             <td style="padding: 6px 0; font-weight: bold;">${data.roomName}</td>
           </tr>
