@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import type { PostFormState } from "./actions"
 import { FeaturedImageField } from "./media-upload"
+import { RichTextEditor } from "./rich-text-editor"
 
 type BlogCategory = "novedades" | "eventos" | "prensa" | "experiencias"
 
@@ -109,13 +110,7 @@ export function PostForm({ action, post }: PostFormProps) {
             <label htmlFor="content" className="text-sm font-medium">
               Contenido
             </label>
-            <Textarea
-              id="content"
-              name="content"
-              defaultValue={post?.content}
-              rows={14}
-              className="min-h-72"
-            />
+            <RichTextEditor name="content" defaultValue={post?.content} />
           </div>
         </section>
 

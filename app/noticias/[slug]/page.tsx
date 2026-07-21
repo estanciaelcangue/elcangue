@@ -8,6 +8,8 @@ import { notFound } from "next/navigation"
 import { getDictionary } from "@/lib/i18n/dictionaries"
 import { localeDateFormats, normalizeLocale } from "@/lib/i18n/config"
 import { localizePath } from "@/lib/i18n/navigation"
+import { sanitizeBlogContent } from "@/lib/blog/content"
+import { PostViewCount } from "./post-view-count"
 
 type BlogCategory = "novedades" | "eventos" | "prensa" | "experiencias"
 
@@ -20,6 +22,7 @@ interface BlogPost {
   featured_image: string
   category: BlogCategory
   published_at: string
+  view_count: number
   author: { full_name: string } | { full_name: string }[] | null
 }
 
@@ -108,6 +111,9 @@ export default async function BlogPostPage({
               <span className="text-card/80 font-sans text-sm">
                 {dictionary.common.by} {getAuthorName(typedPost)}
               </span>
+              <span className="text-card/80 font-sans text-sm">
+                <PostViewCount postId={typedPost.id} initialCount={typedPost.view_count ?? 0} />
+              </span>
             </div>
             <h1 className="font-serif text-3xl md:text-5xl text-card max-w-4xl">
               {typedPost.title}
@@ -125,13 +131,10 @@ export default async function BlogPostPage({
                 {typedPost.excerpt}
               </p>
             )}
-            <div className="prose prose-lg max-w-none font-sans text-foreground leading-relaxed">
-              {typedPost.content.split("\n\n").map((paragraph, index) => (
-                <p key={index} className="mb-6">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+            <div
+              className="font-sans text-base leading-8 text-foreground/85 [&_a]:text-primary [&_a]:underline [&_blockquote]:my-8 [&_blockquote]:border-l-4 [&_blockquote]:border-primary/35 [&_blockquote]:pl-6 [&_h2]:mb-4 [&_h2]:mt-10 [&_h2]:font-serif [&_h2]:text-3xl [&_h2]:text-title [&_h3]:mb-3 [&_h3]:mt-8 [&_h3]:font-serif [&_h3]:text-2xl [&_iframe]:my-8 [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_img]:my-8 [&_img]:h-auto [&_img]:w-full [&_li]:ml-6 [&_ol]:my-5 [&_ol]:list-decimal [&_p]:mb-6 [&_ul]:my-5 [&_ul]:list-disc"
+              dangerouslySetInnerHTML={{ __html: sanitizeBlogContent(typedPost.content) }}
+            />
           </div>
         </div>
       </article>
