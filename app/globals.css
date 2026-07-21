@@ -143,6 +143,18 @@ html {
   scroll-behavior: smooth;
 }
 
+.destination-app {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.destination-app button,
+.destination-app a,
+.destination-app input,
+.destination-app select,
+.destination-app textarea {
+  touch-action: manipulation;
+}
+
 .reservation-cta {
   position: relative;
   isolation: isolate;
@@ -185,9 +197,64 @@ html {
   }
 }
 
+.accordion-content[data-state='open'] {
+  animation: accordion-down 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.accordion-content[data-state='closed'] {
+  animation: accordion-up 220ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.wedding-photo-drop {
+  transform-origin: center bottom;
+  animation: wedding-photo-drop 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes wedding-photo-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-70%) rotate(-8deg) scale(0.92);
+  }
+  58% {
+    opacity: 1;
+    transform: translateY(3%) rotate(2deg) scale(1.015);
+  }
+  78% {
+    transform: translateY(-1.5%) rotate(-1deg) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reservation-cta,
-  .reservation-cta::after {
+  .reservation-cta::after,
+  .accordion-content[data-state],
+  .wedding-photo-drop {
     animation: none;
   }
 }

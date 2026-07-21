@@ -137,14 +137,14 @@ export function TestimonialsSection({
           <div aria-hidden="true" className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-background/45 to-transparent" />
           <div key={current.id} className="grid animate-in fade-in slide-in-from-bottom-2 duration-500 gap-5 md:grid-cols-[10.5rem_1fr] md:gap-7">
             <div className="flex items-center gap-3 border-b border-background/12 pb-4 md:block md:border-b-0 md:border-r md:pb-0 md:pr-6">
-              <div className="relative size-16 shrink-0 overflow-hidden rounded-full border border-background/28 bg-background/12 p-1 md:size-20">
+              <div className="relative size-20 shrink-0 overflow-hidden rounded-full border border-background/28 bg-background/12 p-1 md:size-24">
                 <div className="relative size-full overflow-hidden rounded-full bg-background">
                   <Image
                     src={current.avatar}
                     alt={`Foto de ${current.name}`}
                     fill
                     className="object-cover"
-                    sizes="80px"
+                    sizes="96px"
                   />
                 </div>
               </div>
@@ -152,10 +152,6 @@ export function TestimonialsSection({
               <div className="min-w-0 md:mt-4">
                 <p className="text-sm font-semibold leading-[1.32] text-background">
                   {current.name}
-                </p>
-                <p className="mt-1 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.12em] text-background/62">
-                  <BadgeCheck className="size-3" />
-                  {current.source} {labels.review}
                 </p>
               </div>
             </div>

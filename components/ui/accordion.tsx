@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { ChevronDownIcon } from 'lucide-react'
+import { MinusIcon, PlusIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -31,17 +31,23 @@ function AccordionTrigger({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header className="flex min-w-0">
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          'focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180',
+          'group focus-visible:border-ring focus-visible:ring-ring/50 flex w-full min-w-0 flex-1 items-start justify-between gap-3 py-4 text-left text-sm font-medium transition-all outline-none active:scale-[0.995] focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 sm:gap-4',
           className,
         )}
         {...props}
       >
         {children}
-        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-current/25 transition-colors duration-200 group-hover:border-current/45 sm:mt-0.5 sm:size-8"
+        >
+          <PlusIcon className="size-4 group-data-[state=open]:hidden" />
+          <MinusIcon className="hidden size-4 group-data-[state=open]:block" />
+        </span>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )
@@ -55,7 +61,7 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
+      className="accordion-content overflow-hidden text-sm motion-reduce:animate-none"
       {...props}
     >
       <div className={cn('pt-0 pb-4', className)}>{children}</div>

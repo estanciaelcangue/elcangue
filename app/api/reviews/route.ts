@@ -24,10 +24,11 @@ type PlacesApiResponse = {
 
 export async function GET() {
   if (!GOOGLE_PLACES_API_KEY || !GOOGLE_PLACE_ID) {
-    return NextResponse.json(
-      { error: "Missing Google Places API configuration" },
-      { status: 500 }
-    )
+    return NextResponse.json({
+      reviews: [],
+      rating: null,
+      total: 0,
+    })
   }
 
   const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${GOOGLE_PLACE_ID}&fields=name,rating,user_ratings_total,reviews&reviews_sort=newest&language=es&key=${GOOGLE_PLACES_API_KEY}`

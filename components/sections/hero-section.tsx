@@ -3,17 +3,15 @@
 import { useRef } from "react"
 import Link from "next/link"
 import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 import LightRays from "@/components/LightRays"
-import { HeroSlideshow } from "@/components/hero-slideshow"
 import { Signature } from "@/components/ui/signature"
 import { defaultLocale, type Locale } from "@/lib/i18n/config"
 import { getDictionary, type Dictionary } from "@/lib/i18n/dictionaries"
 import { localizePath } from "@/lib/i18n/navigation"
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP)
+  gsap.registerPlugin(useGSAP)
 }
 
 type HeroSectionProps = {
@@ -40,20 +38,6 @@ export function HeroSection({
           ease: "power2.out",
         })
       }
-
-      const bg = sectionRef.current?.querySelector<HTMLElement>("[data-hero-bg]")
-      if (bg) {
-        gsap.to(bg, {
-          yPercent: 10,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        })
-      }
     },
     { scope: sectionRef },
   )
@@ -72,9 +56,6 @@ export function HeroSection({
       </p>
 
       <div className="relative isolate min-h-[calc(100svh-9rem)] overflow-hidden border-[10px] border-card lg:static lg:min-h-0 lg:overflow-visible lg:border-0">
-        <div data-hero-bg className="absolute inset-0 -top-[10%] -bottom-[10%] z-0 hidden lg:block">
-          <HeroSlideshow />
-        </div>
         <video
           autoPlay
           loop
@@ -83,7 +64,7 @@ export function HeroSection({
           preload="metadata"
           poster="/images/hero/cangue-01.webp"
           aria-hidden="true"
-          className="absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
+          className="absolute inset-0 z-0 h-full w-full object-cover"
         >
           <source
             src="/images/ESTANCIA%20EL%20CANGUE%20-%20VIDEO%20PORTADA.mp4"
@@ -119,7 +100,7 @@ export function HeroSection({
         />
 
         <div className="relative z-[3] mx-auto flex min-h-[calc(100svh-10.25rem)] w-full max-w-4xl px-2 pb-2.5 pt-12 lg:min-h-0 lg:items-center lg:px-0 lg:py-0">
-          <div className="mx-auto flex w-full max-w-3xl flex-col items-center lg:-translate-y-10">
+          <div className="mx-auto flex w-full max-w-3xl flex-col items-center">
             <p data-hero-item className="mb-5 hidden text-xs font-medium uppercase tracking-[0.28em] text-card/80 lg:block">
               {copy.eyebrow}
             </p>
@@ -141,7 +122,7 @@ export function HeroSection({
                 />
               </span>
             </h1>
-            <p data-hero-item className="mx-auto mb-7 max-w-[21rem] font-sans text-[11pt] leading-[1.18] text-card/95 drop-shadow-[0_2px_4px_rgba(35,50,22,0.95)] sm:max-w-2xl sm:text-lg sm:leading-[1.35]">
+            <p data-hero-item className="mx-auto mb-7 max-w-[21rem] font-sans text-[11pt] leading-[1.18] text-card/95 drop-shadow-[0_2px_4px_rgba(35,50,22,0.95)] sm:max-w-2xl sm:text-lg sm:leading-[1.35] lg:max-w-none lg:whitespace-nowrap">
               {copy.intro}
             </p>
 
