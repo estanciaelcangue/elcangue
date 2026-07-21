@@ -3,16 +3,14 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import Image from "next/image"
-import { useState } from "react"
-import { ChevronDown, ChevronRight } from "lucide-react"
 import { ContactMessageForm } from "@/components/contact-message-form"
 import { usePathname } from "next/navigation"
 import { getLocaleFromPathnameOrDefault } from "@/lib/i18n/navigation"
 import { editorialPageDictionaries } from "@/lib/i18n/editorial-pages"
 import { getContactFormLabels } from "@/lib/i18n/public-pages"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 export default function DestinationWeddingPage() {
-  const [expandedIndex, setExpandedIndex] = useState(0)
   const locale = getLocaleFromPathnameOrDefault(usePathname())
   const copy = editorialPageDictionaries[locale].wedding
 
@@ -44,12 +42,6 @@ export default function DestinationWeddingPage() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-foreground/20" />
-          {/* Play button overlay */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <button className="w-16 h-16 rounded-full bg-background/30 backdrop-blur-sm flex items-center justify-center hover:bg-background/50 transition-colors">
-              <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-background border-b-8 border-b-transparent ml-1" />
-            </button>
-          </div>
         </section>
 
         {/* What We Offer Section */}
@@ -61,32 +53,18 @@ export default function DestinationWeddingPage() {
                 <h2 className="font-serif text-2xl sm:text-3xl text-title mb-8 uppercase">
                   {copy.offerTitle}
                 </h2>
-                <div className="space-y-0">
+                <Accordion type="single" collapsible defaultValue="offering-0" className="space-y-0">
                   {copy.offerings.map((item, index) => (
-                    <div key={index} className="border-b border-border">
-                      <button
-                        onClick={() => setExpandedIndex(expandedIndex === index ? -1 : index)}
-                        className="w-full py-4 flex items-center justify-between text-left"
-                      >
-                        <span className={`text-sm ${expandedIndex === index ? "text-coral font-medium" : "text-foreground/70"}`}>
-                          {item.title}
-                        </span>
-                        {expandedIndex === index ? (
-                          <ChevronDown size={16} className="text-coral" />
-                        ) : (
-                          <ChevronRight size={16} className="text-foreground/40" />
-                        )}
-                      </button>
-                      {expandedIndex === index && (
-                        <div className="pb-4">
-                          <p className="text-sm leading-[1.32] text-foreground/80">
-                            {item.description}
-                          </p>
-                        </div>
-                      )}
-                    </div>
+                    <AccordionItem key={item.title} value={`offering-${index}`} className="border-border">
+                      <AccordionTrigger className="py-5 text-left text-sm font-medium text-foreground/75 hover:text-coral hover:no-underline data-[state=open]:text-coral">
+                        {item.title}
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-5 pr-8 text-sm leading-6 text-foreground/70">
+                        {item.description}
+                      </AccordionContent>
+                    </AccordionItem>
                   ))}
-                </div>
+                </Accordion>
               </div>
 
               {/* Image */}
@@ -98,6 +76,22 @@ export default function DestinationWeddingPage() {
                   className="object-cover"
                 />
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-primary py-16 text-background">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <p className="section-eyebrow-light text-center">El Cangüé</p>
+            <h2 className="mx-auto mt-3 max-w-2xl text-center font-serif text-3xl uppercase sm:text-4xl">{copy.processTitle}</h2>
+            <div className="mt-10 grid gap-px overflow-hidden border border-background/15 bg-background/15 md:grid-cols-3">
+              {copy.processSteps.map((step, index) => (
+                <article key={step.title} className="bg-primary p-7 sm:p-9">
+                  <span className="font-serif text-4xl text-background/35">0{index + 1}</span>
+                  <h3 className="mt-5 font-serif text-xl uppercase">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-background/68">{step.text}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>

@@ -18,9 +18,19 @@ export default async function EventosPage() {
       <Header />
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="bg-primary py-12">
-          <div className="mx-auto max-w-4xl px-4 text-center">
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-4 uppercase">
+        <section className="relative isolate flex min-h-[58svh] items-end overflow-hidden bg-primary py-16">
+          <Image
+            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=82&w=2200&auto=format&fit=crop"
+            alt=""
+            fill
+            priority
+            className="-z-20 object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-primary via-primary/65 to-foreground/20" />
+          <div className="mx-auto w-full max-w-5xl px-4 text-center">
+            <p className="section-eyebrow-light mb-4">Paysandú · Uruguay</p>
+            <h1 className="font-serif text-4xl uppercase text-background sm:text-5xl md:text-7xl">
               {copy.title}
             </h1>
           </div>
@@ -41,6 +51,14 @@ export default async function EventosPage() {
             <p className="text-foreground/80 text-sm leading-[1.32]">
               {copy.celebrationParagraphs[2]}
             </p>
+            <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden border border-primary/15 bg-primary/15 text-left sm:grid-cols-4">
+              {copy.highlights.map((highlight, index) => (
+                <div key={highlight} className="bg-background p-5">
+                  <span className="font-serif text-2xl text-primary">0{index + 1}</span>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/70">{highlight}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
