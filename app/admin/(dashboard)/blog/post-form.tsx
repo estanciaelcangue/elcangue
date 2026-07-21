@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import type { PostFormState } from "./actions"
+import { FeaturedImageField } from "./media-upload"
 
 type BlogCategory = "novedades" | "eventos" | "prensa" | "experiencias"
 
@@ -141,13 +142,7 @@ export function PostForm({ action, post }: PostFormProps) {
             <label htmlFor="featured_image" className="text-sm font-medium">
               Imagen destacada
             </label>
-            <Input
-              id="featured_image"
-              name="featured_image"
-              type="url"
-              defaultValue={post?.featured_image}
-              required
-            />
+            <FeaturedImageField defaultValue={post?.featured_image} />
           </div>
 
           <div className="space-y-2">

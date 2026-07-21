@@ -93,7 +93,7 @@ export default async function AdminBlogPage() {
                   <td className="px-4 py-4">
                     <p className="font-medium text-foreground">{post.title}</p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      /blog/{post.slug}
+                      /noticias/{post.slug}
                     </p>
                   </td>
                   <td className="hidden px-4 py-4 capitalize text-muted-foreground md:table-cell">
@@ -114,7 +114,7 @@ export default async function AdminBlogPage() {
                     <div className="flex justify-end gap-2">
                       {post.is_published && (
                         <Button asChild variant="ghost" size="icon-sm">
-                          <Link href={`/blog/${post.slug}`} target="_blank">
+                          <Link href={`/noticias/${post.slug}`} target="_blank">
                             <ExternalLink />
                             <span className="sr-only">Ver</span>
                           </Link>
