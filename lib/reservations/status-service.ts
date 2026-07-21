@@ -40,7 +40,7 @@ export function canTransitionReservationStatus(
   current: ReservationStatus,
   next: ManagedReservationStatus,
 ) {
-  return allowedTransitions[current].includes(next)
+  return allowedTransitions[current]?.includes(next) ?? false
 }
 
 export async function performReservationStatusUpdate(

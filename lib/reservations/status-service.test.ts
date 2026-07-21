@@ -46,6 +46,12 @@ describe("reservation status workflows", () => {
     expect(canTransitionReservationStatus("confirmed", "cancelled")).toBe(true)
   })
 
+  it("rejects unexpected persisted statuses without throwing", () => {
+    expect(
+      canTransitionReservationStatus("archived" as Parameters<typeof canTransitionReservationStatus>[0], "cancelled"),
+    ).toBe(false)
+  })
+
   it("does not change terminal reservations", async () => {
     const deps = dependencies({
       findReservation: vi.fn().mockResolvedValue({ ...reservation, status: "rejected" }),
