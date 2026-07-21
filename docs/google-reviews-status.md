@@ -24,9 +24,9 @@ Fecha de revisión: 2026-07-20
 
 ## Riesgos y límites conocidos
 
-- Las reseñas editoriales de fallback se presentan actualmente dentro de una
-  sección rotulada como Google. Antes de producción debe confirmarse si esos
-  textos provienen efectivamente de la ficha y si se conserva esa atribución.
+- Las reseñas editoriales de fallback se identifican como “El Cangüé”; las que
+  llegan desde Places se identifican como “Google”. Antes de producción debe
+  confirmarse la procedencia de los textos editoriales y si se conservan.
 - No hay moderación, selección manual ni persistencia local de reseñas.
 - La sección depende de una API con costo y cuota, aunque el caché reduce llamadas.
 

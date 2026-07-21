@@ -4,12 +4,13 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import { BadgeCheck, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react"
 import { Reveal } from "@/components/animations/reveal"
-import { defaultLocale } from "@/lib/i18n/config"
+import { defaultLocale, type Locale } from "@/lib/i18n/config"
 import { getDictionary, type Dictionary } from "@/lib/i18n/dictionaries"
 import type { PlaceReview } from "@/app/api/reviews/route"
 
 type TestimonialsSectionProps = {
   dictionary?: Dictionary
+  locale?: Locale
 }
 
 type GuestReview = {
@@ -17,7 +18,7 @@ type GuestReview = {
   name: string
   text: string
   rating: number
-  source: "Google"
+  source: "Google" | "El Cangüé"
   avatar: string
   time?: number
 }
@@ -42,6 +43,7 @@ function mapPlaceReview(r: PlaceReview, index: number): GuestReview {
 
 export function TestimonialsSection({
   dictionary = getDictionary(defaultLocale),
+  locale = defaultLocale,
 }: TestimonialsSectionProps) {
   const copy = dictionary.home.testimonials
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -50,10 +52,16 @@ export function TestimonialsSection({
     copy.items.map((item, index) => ({
       ...item,
       id: `guest-review-${index + 1}`,
-      source: "Google",
+      source: "El Cangüé",
       avatar: fallbackAvatars[index] ?? fallbackAvatars[0],
     })),
   )
+  const labels = {
+    es: { verified: "Reseñas de huéspedes", intro: "Opiniones de quienes eligieron la calma del campo y la calidez de la estancia.", review: "reseña", stars: "estrellas" },
+    en: { verified: "Guest reviews", intro: "Feedback from guests who chose the calm of the countryside and our warm hospitality.", review: "review", stars: "stars" },
+    fr: { verified: "Avis des voyageurs", intro: "Les témoignages de celles et ceux qui ont choisi le calme de la campagne.", review: "avis", stars: "étoiles" },
+    pt: { verified: "Avaliações de hóspedes", intro: "Opiniões de quem escolheu a tranquilidade do campo e nossa hospitalidade.", review: "avaliação", stars: "estrelas" },
+  }[locale]
 
   // Override the editorial fallback only when Google returns usable reviews.
   useEffect(() => {
@@ -107,13 +115,13 @@ export function TestimonialsSection({
         <div data-tst-item className="mx-auto mb-6 max-w-3xl text-center sm:mb-8">
           <div className="mb-4 inline-flex items-center gap-2 border border-background/20 bg-background/10 px-4 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-background/85 backdrop-blur-sm">
             <BadgeCheck className="size-3.5 text-coral" />
-            <span>Reseñas verificadas de Google</span>
+            <span>{labels.verified}</span>
           </div>
           <h2 className="font-serif text-3xl uppercase leading-tight text-background sm:text-4xl">
             {copy.heading}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-[1.32] text-background/75">
-            Opiniones reales de quienes eligieron la calma del campo y la calidez de la estancia.
+            {labels.intro}
           </p>
         </div>
 
@@ -147,7 +155,7 @@ export function TestimonialsSection({
                 </p>
                 <p className="mt-1 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.12em] text-background/62">
                   <BadgeCheck className="size-3" />
-                  {current.source} review
+                  {current.source} {labels.review}
                 </p>
               </div>
             </div>
@@ -158,7 +166,7 @@ export function TestimonialsSection({
                   <Quote className="size-3.5" />
                 </span>
                 <div className="flex items-center gap-1 border border-background/10 bg-primary/25 px-2.5 py-1">
-                  <span className="sr-only">{current.rating} estrellas</span>
+                  <span className="sr-only">{current.rating} {labels.stars}</span>
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star
                       key={index}

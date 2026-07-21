@@ -23,7 +23,7 @@ export function HomePageContent({ dictionary, locale }: HomePageContentProps) {
         <AboutSection dictionary={dictionary} />
         <InnSection dictionary={dictionary} />
         <AccommodationSection dictionary={dictionary} locale={locale} />
-        <TestimonialsSection dictionary={dictionary} />
+        <TestimonialsSection dictionary={dictionary} locale={locale} />
         <ContactSection dictionary={dictionary} />
       </main>
       <Footer />
