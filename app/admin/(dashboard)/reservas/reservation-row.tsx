@@ -40,11 +40,21 @@ export function ReservationRow({ reservation: r, statusLabel, statusColor }: Pro
   const [adminNotes, setAdminNotes] = useState(r.admin_notes)
   const [isPending, startTransition] = useTransition()
   const [localStatus, setLocalStatus] = useState(r.status)
+  const [feedback, setFeedback] = useState<{ type: "error" | "warning" | "success"; message: string } | null>(null)
 
   function handleAction(status: "confirmed" | "rejected" | "cancelled") {
     startTransition(async () => {
+      setFeedback(null)
       const result = await updateReservationStatus(r.id, status, adminNotes)
-      if (!result.error) setLocalStatus(status)
+      if (result.error) {
+        setFeedback({ type: "error", message: result.error })
+        return
+      }
+
+      setLocalStatus(status)
+      setFeedback(result.warning
+        ? { type: "warning", message: result.warning }
+        : { type: "success", message: "Estado actualizado y email enviado." })
     })
   }
 
@@ -57,8 +67,8 @@ export function ReservationRow({ reservation: r, statusLabel, statusColor }: Pro
         onClick={() => setExpanded((v) => !v)}
         className="w-full flex items-center gap-4 px-4 py-3 text-left hover:bg-muted/40 transition-colors"
       >
-        <span className={`shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${statusColor}`}>
-          {statusLabel}
+        <span className={`shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_COLORS[localStatus] ?? statusColor}`}>
+          {STATUS_LABELS[localStatus] ?? statusLabel}
         </span>
         <span className="flex-1 min-w-0">
           <span className="font-medium text-sm text-foreground truncate">{r.guest_name}</span>
@@ -107,6 +117,18 @@ export function ReservationRow({ reservation: r, statusLabel, statusColor }: Pro
             />
           </div>
 
+          {feedback && (
+            <p className={`border px-3 py-2 text-xs ${
+              feedback.type === "error"
+                ? "border-red-200 bg-red-50 text-red-700"
+                : feedback.type === "warning"
+                  ? "border-amber-200 bg-amber-50 text-amber-800"
+                  : "border-green-200 bg-green-50 text-green-700"
+            }`}>
+              {feedback.message}
+            </p>
+          )}
+
           {isPendingStatus && (
             <div className="flex gap-2">
               <button
@@ -128,23 +150,35 @@ export function ReservationRow({ reservation: r, statusLabel, statusColor }: Pro
             </div>
           )}
 
-          {!isPendingStatus && (
+          {localStatus === "confirmed" && (
             <div className="flex gap-2">
-              {localStatus !== "cancelled" && (
-                <button
-                  onClick={() => handleAction("cancelled")}
-                  disabled={isPending}
-                  className="flex items-center gap-1.5 px-3 py-1.5 border border-border text-xs text-muted-foreground rounded-sm hover:border-foreground/40 disabled:opacity-60 transition-colors"
-                >
-                  Cancelar reserva
-                </button>
-              )}
+              <button
+                onClick={() => handleAction("cancelled")}
+                disabled={isPending}
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-border text-xs text-muted-foreground rounded-sm hover:border-foreground/40 disabled:opacity-60 transition-colors"
+              >
+                Cancelar reserva
+              </button>
             </div>
           )}
         </div>
       )}
     </div>
   )
+}
+
+const STATUS_LABELS: Record<string, string> = {
+  pending: "Pendiente",
+  confirmed: "Confirmada",
+  rejected: "Rechazada",
+  cancelled: "Cancelada",
+}
+
+const STATUS_COLORS: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  confirmed: "bg-green-100 text-green-800",
+  rejected: "bg-red-100 text-red-800",
+  cancelled: "bg-gray-100 text-gray-600",
 }
 
 function Detail({ label, value }: { label: string; value: string }) {

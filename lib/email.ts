@@ -1,4 +1,5 @@
 import { Resend } from "resend"
+import type { ManagedReservationStatus } from "@/lib/reservations/status-service"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -19,6 +20,31 @@ export type ReservationEmailData = {
   guestNotes?: string
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;")
+}
+
+function safeEmailData(data: ReservationEmailData): ReservationEmailData {
+  return {
+    ...data,
+    guestName: escapeHtml(data.guestName),
+    guestEmail: escapeHtml(data.guestEmail),
+    guestPhone: escapeHtml(data.guestPhone),
+    roomName: escapeHtml(data.roomName),
+    bedConfig: escapeHtml(data.bedConfig),
+    guestNotes: data.guestNotes ? escapeHtml(data.guestNotes) : undefined,
+  }
+}
+
+function emailConfigurationError() {
+  return process.env.RESEND_API_KEY ? null : { error: "RESEND_API_KEY no está configurada." }
+}
+
 function formatDate(dateStr: string) {
   return new Date(dateStr + "T00:00:00").toLocaleDateString("es-UY", {
     weekday: "long",
@@ -29,6 +55,11 @@ function formatDate(dateStr: string) {
 }
 
 export async function sendAdminNewReservationEmail(data: ReservationEmailData) {
+  const configurationError = emailConfigurationError()
+  if (configurationError) return configurationError
+  data = safeEmailData(data)
+
+  try {
   const { error } = await resend.emails.send({
     from: FROM,
     to: ADMIN_EMAIL,
@@ -93,13 +124,27 @@ export async function sendAdminNewReservationEmail(data: ReservationEmailData) {
     `,
   })
 
-  if (error) console.error("Error sending admin email:", error)
+  if (error) {
+    console.error("Error sending admin email:", error)
+    return { error: error.message }
+  }
+  return {}
+  } catch (error) {
+    console.error("Error sending admin email:", error)
+    return { error: error instanceof Error ? error.message : "Error inesperado de email." }
+  }
 }
 
 export async function sendGuestConfirmationEmail(data: ReservationEmailData) {
+  const configurationError = emailConfigurationError()
+  if (configurationError) return configurationError
+  const recipient = data.guestEmail
+  data = safeEmailData(data)
+
+  try {
   const { error } = await resend.emails.send({
     from: FROM,
-    to: data.guestEmail,
+    to: recipient,
     subject: `Tu reserva en El Cangüé está confirmada — ${data.roomName}`,
     html: `
       <div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #2c2c2c;">
@@ -147,5 +192,73 @@ export async function sendGuestConfirmationEmail(data: ReservationEmailData) {
     `,
   })
 
-  if (error) console.error("Error sending guest confirmation email:", error)
+  if (error) {
+    console.error("Error sending guest confirmation email:", error)
+    return { error: error.message }
+  }
+  return {}
+  } catch (error) {
+    console.error("Error sending guest confirmation email:", error)
+    return { error: error instanceof Error ? error.message : "Error inesperado de email." }
+  }
+}
+
+export async function sendReservationStatusEmail(
+  data: ReservationEmailData,
+  status: ManagedReservationStatus,
+) {
+  if (status === "confirmed") {
+    return sendGuestConfirmationEmail(data)
+  }
+
+  const configurationError = emailConfigurationError()
+  if (configurationError) return configurationError
+  const recipient = data.guestEmail
+  const safe = safeEmailData(data)
+  const statusCopy = status === "rejected"
+    ? {
+        subject: "Actualización sobre tu solicitud de reserva en El Cangüé",
+        title: "Solicitud no confirmada",
+        intro: "Por el momento no pudimos confirmar la disponibilidad solicitada. Podés responder este email para consultar otras fechas o habitaciones.",
+      }
+    : {
+        subject: "Tu reserva en El Cangüé fue cancelada",
+        title: "Reserva cancelada",
+        intro: "Confirmamos la cancelación de tu reserva. Si querés coordinar una nueva estadía, estamos a disposición.",
+      }
+
+  try {
+    const { error } = await resend.emails.send({
+      from: FROM,
+      to: recipient,
+      subject: statusCopy.subject,
+      html: `
+        <div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #2c2c2c;">
+          <h2 style="font-size: 18px; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid #ddd; padding-bottom: 12px;">
+            ${statusCopy.title}
+          </h2>
+          <p style="font-size: 14px; line-height: 1.6; color: #555;">Hola ${safe.guestName}, ${statusCopy.intro}</p>
+          <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+            <tr><td style="padding: 6px 0; color: #777; width: 140px;">Email</td><td>${safe.guestEmail}</td></tr>
+            <tr><td style="padding: 6px 0; color: #777;">Teléfono</td><td>${safe.guestPhone || "—"}</td></tr>
+            <tr><td style="padding: 6px 0; color: #777;">Habitación</td><td>${safe.roomName}</td></tr>
+            <tr><td style="padding: 6px 0; color: #777;">Configuración</td><td>${safe.bedConfig}</td></tr>
+            <tr><td style="padding: 6px 0; color: #777;">Ingreso</td><td>${formatDate(safe.checkIn)}</td></tr>
+            <tr><td style="padding: 6px 0; color: #777;">Salida</td><td>${formatDate(safe.checkOut)}</td></tr>
+          </table>
+          <p style="font-size: 12px; color: #aaa; margin-top: 24px; letter-spacing: 0.05em;">ESTANCIA EL CANGÜÉ — Posada de Campo</p>
+        </div>
+      `,
+    })
+
+    if (error) {
+      console.error("Error sending reservation status email:", error)
+      return { error: error.message }
+    }
+
+    return {}
+  } catch (error) {
+    console.error("Error sending reservation status email:", error)
+    return { error: error instanceof Error ? error.message : "Error inesperado de email." }
+  }
 }
