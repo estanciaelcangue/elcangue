@@ -6,9 +6,12 @@ import { getRequestLocale } from "@/lib/i18n/server"
 import { localizePath } from "@/lib/i18n/navigation"
 import { googleMapsEmbedSrc } from "@/lib/location"
 import { ContactMessageForm } from "@/components/contact-message-form"
+import { editorialPageDictionaries } from "@/lib/i18n/editorial-pages"
+import { getContactFormLabels } from "@/lib/i18n/public-pages"
 
 export default async function EventosPage() {
   const locale = await getRequestLocale()
+  const copy = editorialPageDictionaries[locale].events
 
   return (
     <>
@@ -18,7 +21,7 @@ export default async function EventosPage() {
         <section className="bg-primary py-12">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-4 uppercase">
-              Eventos en El Cangue
+              {copy.title}
             </h1>
           </div>
         </section>
@@ -27,20 +30,16 @@ export default async function EventosPage() {
         <section className="py-16 bg-background">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <h2 className="font-serif text-4xl sm:text-5xl text-title mb-6 italic" style={{ fontFamily: "'Dancing Script', cursive, serif" }}>
-              Celebraciones
+              {copy.celebrations}
             </h2>
             <p className="text-foreground/80 text-sm leading-[1.32] mb-4">
-              Bodas, cumpleanos, aniversarios, encuentros, egresados... todo se celebra en El Cangue! Desde 
-              reuniones intimas hasta eventos para 400 personas. Cada propuesta es personalizada.
+              {copy.celebrationParagraphs[0]}
             </p>
             <p className="text-foreground/80 text-sm leading-[1.32] mb-4">
-              Ofrecemos entrevistas en la Estancia para evaluar opciones y definir el servicio. Nuestro equipo puede 
-              encargarse de toda la planificacion, de principio a fin. Contamos con un grupo de proveedores profesionales 
-              y confiables.
+              {copy.celebrationParagraphs[1]}
             </p>
             <p className="text-foreground/80 text-sm leading-[1.32]">
-              Nuestra especialidad son las <strong>bodas</strong>. El Rosedal y nuestra estructura transparente de 400 m2, completamente 
-              inmersa en el jardin, crean un entorno magico bajo el cielo estrellado.
+              {copy.celebrationParagraphs[2]}
             </p>
           </div>
         </section>
@@ -62,22 +61,19 @@ export default async function EventosPage() {
             <div className="flex items-center bg-background p-8 lg:p-12">
               <div>
                 <p className="section-eyebrow mb-2">
-                  Decoracion floral
+                  {copy.floralEyebrow}
                 </p>
                 <h3 className="font-serif text-xl sm:text-2xl text-title mb-4 uppercase">
-                  Decoracion de Eventos
+                  {copy.floralTitle}
                 </h3>
                 <p className="text-foreground/80 text-sm leading-[1.32] mb-6">
-                  Uno de los puntos destacados de nuestra propuesta. Ser floristas y 
-                  cultivar nuestras propias flores nos permite que <strong>cada boda sea 
-                  unica</strong>. Nos motiva la reaccion de los invitados ante la belleza de los 
-                  arreglos florales. Eso es para nosotros, un trabajo bien hecho.
+                  {copy.floralText}
                 </p>
                 <Link
                   href={localizePath("/contacto", locale)}
                   className="inline-flex items-center justify-center px-6 py-2.5 bg-coral text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-coral/90 transition-colors"
                 >
-                  Contactar
+                  {copy.contact}
                 </Link>
               </div>
             </div>
@@ -91,27 +87,22 @@ export default async function EventosPage() {
             <div className="flex items-center bg-background p-8 lg:p-12 order-2 lg:order-1">
               <div>
                 <p className="section-eyebrow mb-2">
-                  Para empresas
+                  {copy.corporateEyebrow}
                 </p>
                 <h3 className="font-serif text-xl sm:text-2xl text-title mb-4 uppercase">
-                  Eventos Empresariales
+                  {copy.corporateTitle}
                 </h3>
                 <p className="text-foreground/80 text-sm leading-[1.32] mb-4">
-                  Empresas de distintos rubros, desde el sector forestal hasta 
-                  aseguradoras, eligen El Cangue para sus encuentros corporativos. 
-                  Nuestro entorno natural, libre de ruidos y con un servicio cuidado, 
-                  favorece el foco, la creatividad y el bienestar.
+                  {copy.corporateParagraphs[0]}
                 </p>
                 <p className="text-foreground/80 text-sm leading-[1.32] mb-6">
-                  Ofrecemos un servicio completamente personalizado, 
-                  adaptandonos a las necesidades de cada cliente: equipamiento, 
-                  gastronomia, alojamiento, entretenimiento y espacios de trabajo.
+                  {copy.corporateParagraphs[1]}
                 </p>
                 <Link
                   href={localizePath("/contacto", locale)}
                   className="inline-flex items-center justify-center px-6 py-2.5 bg-coral text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-coral/90 transition-colors"
                 >
-                  Contactar
+                  {copy.contact}
                 </Link>
               </div>
             </div>
@@ -135,7 +126,7 @@ export default async function EventosPage() {
               {/* Contact Info */}
               <div>
                 <h3 className="section-eyebrow-muted mb-6 border-t border-border pt-6">
-                  Contactanos
+                  {copy.contact}
                 </h3>
                 <div className="space-y-3 text-sm leading-[1.32] text-foreground/80">
                   <p>Ruta 3 km 358,5, Paysandú, Uruguay</p>
@@ -144,7 +135,7 @@ export default async function EventosPage() {
                 </div>
                 
                 <h3 className="section-eyebrow-muted mt-8 mb-4 border-t border-border pt-6">
-                  Encontranos
+                  {copy.findUs}
                 </h3>
                 <div className="aspect-video w-full bg-accent/30 rounded-sm overflow-hidden">
                   <iframe
@@ -162,14 +153,16 @@ export default async function EventosPage() {
               {/* Form */}
               <div className="border border-border p-6">
                 <h3 className="section-eyebrow-muted mb-6 text-center">
-                  Organiza tu Evento en la Estancia
+                  {copy.formTitle}
                 </h3>
                 <ContactMessageForm
                   origin="events"
-                  subjectLabel="Tipo de evento"
-                  subjectPlaceholder="Boda, cumpleaños, evento empresarial…"
+                  locale={locale}
+                  subjectLabel={copy.eventType}
+                  subjectPlaceholder={copy.eventPlaceholder}
                   showPhone
-                  submitLabel="Consultar por mi evento"
+                  submitLabel={copy.submit}
+                  labels={{ ...getContactFormLabels(locale), subject: copy.eventType }}
                 />
               </div>
             </div>

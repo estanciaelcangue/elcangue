@@ -6,24 +6,15 @@ import Image from "next/image"
 import { useState } from "react"
 import { ChevronDown, ChevronRight } from "lucide-react"
 import { ContactMessageForm } from "@/components/contact-message-form"
-
-const offerings = [
-  {
-    title: "Un entorno natural incomparable",
-    description: "Celebra tu boda en plena tranquilidad rural, con vistas abiertas y paisajes que invitan a desconectar del mundo.",
-    expanded: true,
-  },
-  { title: "Temporada ideal para bodas", description: "Los meses de primavera y otono ofrecen el clima perfecto para celebraciones al aire libre.", expanded: false },
-  { title: "Fechas mas solicitadas", description: "Te ayudamos a elegir la fecha ideal segun disponibilidad y condiciones climaticas optimas.", expanded: false },
-  { title: "Ceremonias al atardecer", description: "El momento magico donde el sol se pone sobre el campo uruguayo, creando un escenario unico.", expanded: false },
-  { title: "Suite nupcial & alojamiento boutique", description: "Habitaciones exclusivas para los novios y opciones de hospedaje para invitados.", expanded: false },
-  { title: "Facil acceso para tus invitados", description: "Ubicacion estrategica con buenas rutas de acceso y senalizacion clara.", expanded: false },
-  { title: "Gastronomia local que enamora", description: "Menu personalizado con productos frescos de la region y opciones para todos los gustos.", expanded: false },
-  { title: "Organizacion integral del evento", description: "Nuestro equipo se encarga de cada detalle para que disfrutes sin preocupaciones.", expanded: false },
-]
+import { usePathname } from "next/navigation"
+import { getLocaleFromPathnameOrDefault } from "@/lib/i18n/navigation"
+import { editorialPageDictionaries } from "@/lib/i18n/editorial-pages"
+import { getContactFormLabels } from "@/lib/i18n/public-pages"
 
 export default function DestinationWeddingPage() {
   const [expandedIndex, setExpandedIndex] = useState(0)
+  const locale = getLocaleFromPathnameOrDefault(usePathname())
+  const copy = editorialPageDictionaries[locale].wedding
 
   return (
     <>
@@ -33,15 +24,13 @@ export default function DestinationWeddingPage() {
         <section className="bg-primary py-12">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-4 uppercase">
-              Destination Wedding
+              {copy.title}
             </h1>
             <p className="section-eyebrow-light mb-6">
-              — Una boda boutique en el corazon del campo uruguayo —
+              — {copy.eyebrow} —
             </p>
             <p className="text-background/75 text-sm leading-[1.32] max-w-2xl mx-auto">
-              En El Cangue te ofrecemos una experiencia unica para celebrar tu boda destino en una autentica estancia uruguaya. Rodeados de naturaleza, sin 
-              contaminacion sonora ni luminica, aqui el horizonte se funde con el cielo y cada detalle esta pensado para hacer de tu gran dia un recuerdo 
-              inolvidable.
+              {copy.intro}
             </p>
           </div>
         </section>
@@ -70,10 +59,10 @@ export default function DestinationWeddingPage() {
               {/* Accordion */}
               <div>
                 <h2 className="font-serif text-2xl sm:text-3xl text-title mb-8 uppercase">
-                  Que ofrecemos?
+                  {copy.offerTitle}
                 </h2>
                 <div className="space-y-0">
-                  {offerings.map((item, index) => (
+                  {copy.offerings.map((item, index) => (
                     <div key={index} className="border-b border-border">
                       <button
                         onClick={() => setExpandedIndex(expandedIndex === index ? -1 : index)}
@@ -116,16 +105,18 @@ export default function DestinationWeddingPage() {
         <section className="border-t border-border bg-card py-16">
           <div className="mx-auto grid max-w-5xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
             <div>
-              <p className="section-eyebrow mb-3">Empecemos a imaginarla</p>
-              <h2 className="font-serif text-3xl uppercase text-title">Tu boda en El Cangüé</h2>
-              <p className="mt-5 text-sm leading-7 text-foreground/70">Contanos la fecha estimada, cantidad de invitados y el estilo de celebración que imaginan. Nuestro equipo les responderá con una propuesta personalizada.</p>
+              <p className="section-eyebrow mb-3">{copy.formEyebrow}</p>
+              <h2 className="font-serif text-3xl uppercase text-title">{copy.formTitle}</h2>
+              <p className="mt-5 text-sm leading-7 text-foreground/70">{copy.formText}</p>
             </div>
             <div className="border border-border bg-background p-6 sm:p-8">
               <ContactMessageForm
                 origin="destination_wedding"
-                defaultSubject="Consulta Destination Wedding"
+                locale={locale}
+                defaultSubject={copy.subject}
                 showPhone
-                submitLabel="Consultar por nuestra boda"
+                submitLabel={copy.submit}
+                labels={getContactFormLabels(locale)}
               />
             </div>
           </div>

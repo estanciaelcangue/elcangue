@@ -9,21 +9,25 @@ import { BedDouble, CalendarDays, Check, ClipboardCheck, UserRound } from "lucid
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { createReservation } from "@/app/posada/actions"
+import type { Locale } from "@/lib/i18n/config"
+import { publicPageDictionaries } from "@/lib/i18n/public-pages"
 
-const schema = z.object({
-  room_id: z.string().min(1, "Seleccioná un alojamiento"),
-  guest_name: z.string().min(2, "Nombre requerido"),
-  guest_email: z.string().email("Email inválido"),
-  guest_phone: z.string().min(6, "Teléfono requerido"),
-  check_in: z.string().min(1, "Fecha de ingreso requerida"),
-  check_out: z.string().min(1, "Fecha de salida requerida"),
+function createSchema(errors: readonly string[]) {
+  return z.object({
+  room_id: z.string().min(1, errors[0]),
+  guest_name: z.string().min(2, errors[1]),
+  guest_email: z.string().email(errors[2]),
+  guest_phone: z.string().min(6, errors[3]),
+  check_in: z.string().min(1, errors[4]),
+  check_out: z.string().min(1, errors[5]),
   adults: z.coerce.number().min(1).max(8),
   children: z.coerce.number().min(0).max(8),
-  bed_config: z.string().min(1, "Seleccioná una configuración de camas"),
+  bed_config: z.string().min(1, errors[6]),
   guest_notes: z.string().optional(),
-})
+  })
+}
 
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<ReturnType<typeof createSchema>>
 
 type RoomOption = {
   id: string
@@ -35,6 +39,7 @@ type RoomOption = {
 
 type Props = {
   rooms: RoomOption[]
+  locale?: Locale
 }
 
 const inputClass =
@@ -44,13 +49,6 @@ const labelClass = "mb-1.5 block text-[0.68rem] font-semibold uppercase tracking
 
 const dateButtonClass =
   "flex min-h-12 w-full items-center justify-between gap-3 rounded-sm border border-primary/14 bg-[#FAF8F2] px-4 py-3 text-left text-sm text-foreground/78 shadow-sm outline-none transition hover:border-primary/30 hover:bg-[#FFFDF7] focus-visible:border-primary/55 focus-visible:ring-2 focus-visible:ring-primary/14"
-
-const planningSteps = [
-  { icon: BedDouble, title: "Elegí tu alojamiento" },
-  { icon: CalendarDays, title: "Indicá fechas y huéspedes" },
-  { icon: UserRound, title: "Dejanos tus datos" },
-  { icon: ClipboardCheck, title: "Te confirmamos disponibilidad" },
-]
 
 function parseDateValue(value?: string) {
   if (!value) return undefined
@@ -67,18 +65,18 @@ function toDateValue(date?: Date) {
   return `${year}-${month}-${day}`
 }
 
-function formatDisplayDate(value?: string) {
+function formatDisplayDate(value: string | undefined, locale: Locale) {
   const date = parseDateValue(value)
   if (!date) return "dd/mm/aaaa"
-  return new Intl.DateTimeFormat("es-UY", {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   }).format(date)
 }
 
-function formatMonthTitle(date: Date) {
-  const formatted = new Intl.DateTimeFormat("es-UY", {
+function formatMonthTitle(date: Date, locale: Locale) {
+  const formatted = new Intl.DateTimeFormat(locale, {
     month: "long",
     year: "numeric",
   }).format(date)
@@ -90,9 +88,12 @@ type ReservationDateFieldProps = {
   onChange: (value: string) => void
   error?: string
   ariaLabel: string
+  locale: Locale
+  clearLabel: string
+  todayLabel: string
 }
 
-function ReservationDateField({ value, onChange, error, ariaLabel }: ReservationDateFieldProps) {
+function ReservationDateField({ value, onChange, error, ariaLabel, locale, clearLabel, todayLabel }: ReservationDateFieldProps) {
   const [open, setOpen] = useState(false)
   const selectedDate = parseDateValue(value)
 
@@ -108,7 +109,7 @@ function ReservationDateField({ value, onChange, error, ariaLabel }: Reservation
         <PopoverTrigger asChild>
           <button type="button" className={dateButtonClass} aria-label={ariaLabel}>
             <span className={selectedDate ? "text-foreground/78" : "text-foreground/42"}>
-              {formatDisplayDate(value)}
+              {formatDisplayDate(value, locale)}
             </span>
             <CalendarDays className="size-4 shrink-0 text-primary/58" strokeWidth={1.7} />
           </button>
@@ -126,9 +127,9 @@ function ReservationDateField({ value, onChange, error, ariaLabel }: Reservation
             showOutsideDays
             weekStartsOn={1}
             formatters={{
-              formatCaption: formatMonthTitle,
+              formatCaption: (date) => formatMonthTitle(date, locale),
               formatWeekdayName: (date) =>
-                new Intl.DateTimeFormat("es-UY", { weekday: "short" })
+                new Intl.DateTimeFormat(locale, { weekday: "short" })
                   .format(date)
                   .slice(0, 2)
                   .toUpperCase(),
@@ -178,14 +179,14 @@ function ReservationDateField({ value, onChange, error, ariaLabel }: Reservation
                   className="rounded-sm px-1 py-1.5 text-primary/62 transition hover:bg-primary/8 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
                   onClick={() => onChange("")}
                 >
-                  Borrar
+                  {clearLabel}
                 </button>
                 <button
                   type="button"
                   className="rounded-sm px-1 py-1.5 text-primary/78 transition hover:bg-primary/8 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
                   onClick={() => selectDate(new Date())}
                 >
-                  Hoy
+                  {todayLabel}
                 </button>
               </div>
             }
@@ -198,7 +199,10 @@ function ReservationDateField({ value, onChange, error, ariaLabel }: Reservation
   )
 }
 
-export function ReservationForm({ rooms }: Props) {
+export function ReservationForm({ rooms, locale = "es" }: Props) {
+  const copy = publicPageDictionaries[locale].reservation
+  const schema = createSchema(copy.errors)
+  const planningSteps = [BedDouble, CalendarDays, UserRound, ClipboardCheck].map((icon, index) => ({ icon, title: copy.steps[index] }))
   const [submitted, setSubmitted] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
@@ -259,12 +263,12 @@ export function ReservationForm({ rooms }: Props) {
     return (
       <section className="bg-primary py-20">
         <div className="mx-auto max-w-2xl px-4 text-center">
-          <p className="section-eyebrow-light mb-4">Solicitud recibida</p>
+          <p className="section-eyebrow-light mb-4">{copy.received}</p>
           <h2 className="mb-4 font-serif text-3xl text-background">
-            Gracias por pensar en El Cangüé
+            {copy.thanks}
           </h2>
           <p className="text-sm leading-relaxed text-background/78">
-            Recibimos tu consulta y te contactaremos a la brevedad para confirmar disponibilidad.
+            {copy.receivedText}
           </p>
         </div>
       </section>
@@ -275,13 +279,12 @@ export function ReservationForm({ rooms }: Props) {
     <section ref={sectionRef} id="reserva" className="scroll-mt-20 bg-primary py-16 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="section-eyebrow-light mb-3">Reserva tu estadía</p>
+          <p className="section-eyebrow-light mb-3">{copy.eyebrow}</p>
           <h2 className="font-serif text-3xl leading-tight text-background sm:text-4xl">
-            Consultá disponibilidad para venir a descansar al campo
+            {copy.title}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-[1.65] text-background/70">
-            Completá esta solicitud y nuestro equipo te responde con disponibilidad, opciones y detalles.
-            No es un pago ni una reserva automática.
+            {copy.intro}
           </p>
         </div>
 
@@ -298,7 +301,7 @@ export function ReservationForm({ rooms }: Props) {
                 </span>
                 <div>
                   <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-background/50">
-                    Paso {index + 1}
+                    {copy.step} {index + 1}
                   </p>
                   <p className="text-sm leading-snug">{step.title}</p>
                 </div>
@@ -318,8 +321,8 @@ export function ReservationForm({ rooms }: Props) {
                   1
                 </span>
                 <div>
-                  <h3 className="font-serif text-xl text-title">Elegí tu alojamiento</h3>
-                  <p className="text-xs text-foreground/56">Seleccioná la opción que más se ajuste a tu estadía.</p>
+                  <h3 className="font-serif text-xl text-title">{copy.steps[0]}</h3>
+                  <p className="text-xs text-foreground/56">{copy.chooseRoomHelp}</p>
                 </div>
               </div>
 
@@ -375,7 +378,7 @@ export function ReservationForm({ rooms }: Props) {
                     2
                   </span>
                   <div>
-                    <h3 className="font-serif text-xl text-title">Configuración de camas</h3>
+                    <h3 className="font-serif text-xl text-title">{copy.bedConfiguration}</h3>
                     <p className="text-xs text-foreground/56">{selectedRoom.name}</p>
                   </div>
                 </div>
@@ -415,14 +418,14 @@ export function ReservationForm({ rooms }: Props) {
                   3
                 </span>
                 <div>
-                  <h3 className="font-serif text-xl text-title">Indicá fechas y huéspedes</h3>
-                  <p className="text-xs text-foreground/56">Así podemos revisar disponibilidad con precisión.</p>
+                  <h3 className="font-serif text-xl text-title">{copy.datesGuests}</h3>
+                  <p className="text-xs text-foreground/56">{copy.datesHelp}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
-                  <label className={labelClass}>Ingreso</label>
+                  <label className={labelClass}>{copy.checkIn}</label>
                   <Controller
                     name="check_in"
                     control={control}
@@ -431,13 +434,16 @@ export function ReservationForm({ rooms }: Props) {
                         value={field.value}
                         onChange={field.onChange}
                         error={errors.check_in?.message}
-                        ariaLabel="Seleccionar fecha de ingreso"
+                        ariaLabel={copy.checkIn}
+                        locale={locale}
+                        clearLabel={copy.clear}
+                        todayLabel={copy.today}
                       />
                     )}
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Salida</label>
+                  <label className={labelClass}>{copy.checkOut}</label>
                   <Controller
                     name="check_out"
                     control={control}
@@ -446,13 +452,16 @@ export function ReservationForm({ rooms }: Props) {
                         value={field.value}
                         onChange={field.onChange}
                         error={errors.check_out?.message}
-                        ariaLabel="Seleccionar fecha de salida"
+                        ariaLabel={copy.checkOut}
+                        locale={locale}
+                        clearLabel={copy.clear}
+                        todayLabel={copy.today}
                       />
                     )}
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Adultos</label>
+                  <label className={labelClass}>{copy.adults}</label>
                   <select {...register("adults")} className={inputClass}>
                     {[1, 2, 3, 4].map((n) => (
                       <option key={n} value={n}>
@@ -462,7 +471,7 @@ export function ReservationForm({ rooms }: Props) {
                   </select>
                 </div>
                 <div>
-                  <label className={labelClass}>Menores</label>
+                  <label className={labelClass}>{copy.children}</label>
                   <select {...register("children")} className={inputClass}>
                     {[0, 1, 2, 3].map((n) => (
                       <option key={n} value={n}>
@@ -480,19 +489,19 @@ export function ReservationForm({ rooms }: Props) {
                   4
                 </span>
                 <div>
-                  <h3 className="font-serif text-xl text-title">Dejanos tus datos</h3>
-                  <p className="text-xs text-foreground/56">Te contactamos para confirmar disponibilidad.</p>
+                  <h3 className="font-serif text-xl text-title">{copy.details}</h3>
+                  <p className="text-xs text-foreground/56">{copy.detailsHelp}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className={labelClass}>Nombre completo</label>
+                  <label className={labelClass}>{copy.fullName}</label>
                   <input type="text" {...register("guest_name")} className={inputClass} />
                   {errors.guest_name && <p className="mt-1 text-xs text-red-700">{errors.guest_name.message}</p>}
                 </div>
                 <div>
-                  <label className={labelClass}>Teléfono / WhatsApp</label>
+                  <label className={labelClass}>{copy.phone}</label>
                   <input type="tel" {...register("guest_phone")} className={inputClass} />
                   {errors.guest_phone && <p className="mt-1 text-xs text-red-700">{errors.guest_phone.message}</p>}
                 </div>
@@ -502,12 +511,12 @@ export function ReservationForm({ rooms }: Props) {
                   {errors.guest_email && <p className="mt-1 text-xs text-red-700">{errors.guest_email.message}</p>}
                 </div>
                 <div className="sm:col-span-2">
-                  <label className={labelClass}>Consultas o pedidos especiales</label>
+                  <label className={labelClass}>{copy.specialRequests}</label>
                   <textarea
                     rows={4}
                     {...register("guest_notes")}
                     className={`${inputClass} resize-none`}
-                    placeholder="Opcional"
+                    placeholder={copy.optional}
                   />
                 </div>
               </div>
@@ -516,13 +525,13 @@ export function ReservationForm({ rooms }: Props) {
             {selectedRoom && selectedBedConfig && (
               <div className="rounded-sm border border-primary/16 bg-primary/[0.04] px-4 py-4 text-sm text-foreground/70">
                 <p className="mb-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                  Resumen de tu solicitud
+                  {copy.summary}
                 </p>
                 <p>
-                  Alojamiento: <span className="font-medium text-foreground">{selectedRoom.name}</span>
+                  {copy.accommodation}: <span className="font-medium text-foreground">{selectedRoom.name}</span>
                 </p>
                 <p>
-                  Camas: <span className="font-medium text-foreground">{selectedBedConfig}</span>
+                  {copy.beds}: <span className="font-medium text-foreground">{selectedBedConfig}</span>
                 </p>
               </div>
             )}
@@ -535,10 +544,10 @@ export function ReservationForm({ rooms }: Props) {
                 disabled={isPending}
                 className="w-full rounded-sm bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-background shadow-[0_18px_38px_rgba(70,80,52,0.22)] transition hover:bg-button-hover disabled:opacity-60 sm:w-auto sm:min-w-72"
               >
-                {isPending ? "Enviando..." : "Solicitar disponibilidad"}
+                {isPending ? copy.sending : copy.submit}
               </button>
               <p className="max-w-md text-xs leading-relaxed text-foreground/52">
-                Te respondemos con las opciones disponibles para que puedas confirmar tu estadía sin apuro.
+                {copy.footer}
               </p>
             </div>
           </div>

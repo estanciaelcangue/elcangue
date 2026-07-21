@@ -2,6 +2,7 @@
 
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
+import { normalizeLocale, type Locale } from "@/lib/i18n/config"
 
 export type ContactMessageOrigin = "contact" | "events" | "destination_wedding" | "home"
 
@@ -21,17 +22,25 @@ const messageSchema = z.object({
 
 export async function submitContactMessage(
   origin: ContactMessageOrigin,
+  requestedLocale: Locale,
   _previousState: ContactMessageState,
   formData: FormData,
 ): Promise<ContactMessageState> {
+  const locale = normalizeLocale(requestedLocale)
+  const copy = {
+    es: { invalid: "Revisá los datos del formulario.", error: "No pudimos enviar tu mensaje. Intentá nuevamente.", success: "Gracias. Recibimos tu mensaje y te contactaremos pronto." },
+    en: { invalid: "Please review the form details.", error: "We could not send your message. Please try again.", success: "Thank you. We received your message and will contact you soon." },
+    fr: { invalid: "Veuillez vérifier les informations du formulaire.", error: "Nous n’avons pas pu envoyer votre message. Réessayez.", success: "Merci. Nous avons reçu votre message et vous contacterons bientôt." },
+    pt: { invalid: "Revise os dados do formulário.", error: "Não foi possível enviar sua mensagem. Tente novamente.", success: "Obrigado. Recebemos sua mensagem e entraremos em contato em breve." },
+  }[locale]
   const parsed = messageSchema.safeParse(Object.fromEntries(formData))
 
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Revisá los datos del formulario." }
+    return { error: copy.invalid }
   }
 
   if (parsed.data.website) {
-    return { success: "Gracias. Recibimos tu mensaje." }
+    return { success: copy.success }
   }
 
   const supabase = await createClient()
@@ -47,8 +56,8 @@ export async function submitContactMessage(
 
   if (error) {
     console.error("Error saving contact message", error)
-    return { error: "No pudimos enviar tu mensaje. Intentá nuevamente." }
+    return { error: copy.error }
   }
 
-  return { success: "Gracias. Recibimos tu mensaje y te contactaremos pronto." }
+  return { success: copy.success }
 }

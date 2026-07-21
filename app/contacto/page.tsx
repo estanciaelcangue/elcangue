@@ -3,8 +3,12 @@ import { Footer } from "@/components/footer"
 import { MapPin, Phone, Mail } from "lucide-react"
 import { googleMapsEmbedSrc } from "@/lib/location"
 import { ContactMessageForm } from "@/components/contact-message-form"
+import { getRequestLocale } from "@/lib/i18n/server"
+import { getContactFormLabels, publicPageDictionaries } from "@/lib/i18n/public-pages"
 
-export default function ContactoPage() {
+export default async function ContactoPage() {
+  const locale = await getRequestLocale()
+  const copy = publicPageDictionaries[locale].contact
   return (
     <>
       <Header />
@@ -13,11 +17,10 @@ export default function ContactoPage() {
         <section className="bg-primary py-12">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-4 uppercase">
-              Contacto
+              {copy.title}
             </h1>
             <p className="text-background/75 text-sm leading-[1.32] max-w-xl mx-auto">
-              Estamos aqui para ayudarte a planificar tu estadia o evento. 
-              No dudes en contactarnos para cualquier consulta.
+              {copy.intro}
             </p>
           </div>
         </section>
@@ -29,7 +32,7 @@ export default function ContactoPage() {
               {/* Contact Info */}
               <div>
                 <h2 className="font-serif text-2xl text-title mb-8 uppercase">
-                  Informacion de Contacto
+                  {copy.information}
                 </h2>
                 
                 <div className="space-y-6">
@@ -38,7 +41,7 @@ export default function ContactoPage() {
                       <MapPin className="text-primary" size={18} />
                     </div>
                     <div>
-                      <h3 className="font-medium text-foreground mb-1">Ubicacion</h3>
+                      <h3 className="font-medium text-foreground mb-1">{copy.location}</h3>
                       <p className="text-foreground/80 text-sm leading-[1.32]">
                         Ruta 3 km 358,5<br />
                         Paysandú, Uruguay
@@ -51,7 +54,7 @@ export default function ContactoPage() {
                       <Phone className="text-primary" size={18} />
                     </div>
                     <div>
-                      <h3 className="font-medium text-foreground mb-1">Telefono</h3>
+                      <h3 className="font-medium text-foreground mb-1">{copy.phone}</h3>
                       <a href="tel:+59899726883" className="text-foreground/70 text-sm hover:text-primary transition-colors">
                         +598 99 726 883
                       </a>
@@ -63,7 +66,7 @@ export default function ContactoPage() {
                       <Mail className="text-primary" size={18} />
                     </div>
                     <div>
-                      <h3 className="font-medium text-foreground mb-1">Email</h3>
+                      <h3 className="font-medium text-foreground mb-1">{copy.email}</h3>
                       <div className="space-y-1">
                         <a href="mailto:info@estanciaelcangue.com" className="text-foreground/70 text-sm hover:text-primary transition-colors block">
                           info@estanciaelcangue.com
@@ -87,7 +90,7 @@ export default function ContactoPage() {
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      title="Ubicacion de Estancia El Cangue"
+                      title={copy.mapTitle}
                     />
                   </div>
                 </div>
@@ -96,19 +99,22 @@ export default function ContactoPage() {
               {/* Contact Form */}
               <div>
                 <h2 className="font-serif text-2xl text-title mb-8 uppercase">
-                  Envianos un Mensaje
+                  {copy.formTitle}
                 </h2>
                 
                 <ContactMessageForm
                   origin="contact"
+                  locale={locale}
                   showPhone
                   subjectOptions={[
-                    { value: "reserva", label: "Reserva de alojamiento" },
-                    { value: "evento", label: "Consulta de eventos" },
-                    { value: "boda", label: "Bodas" },
-                    { value: "rosedal", label: "Visita al Rosedal" },
-                    { value: "otro", label: "Otro" },
+                    { value: "reserva", label: copy.subjects[0] },
+                    { value: "evento", label: copy.subjects[1] },
+                    { value: "boda", label: copy.subjects[2] },
+                    { value: "rosedal", label: copy.subjects[3] },
+                    { value: "otro", label: copy.subjects[4] },
                   ]}
+                  labels={getContactFormLabels(locale)}
+                  submitLabel={locale === "en" ? "Send message" : locale === "fr" ? "Envoyer" : locale === "pt" ? "Enviar mensagem" : "Enviar mensaje"}
                 />
               </div>
             </div>

@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { getRequestLocale } from "@/lib/i18n/server"
 import { localizePath } from "@/lib/i18n/navigation"
+import { editorialPageDictionaries } from "@/lib/i18n/editorial-pages"
 
 const roseVarieties = [
   {
@@ -35,6 +36,7 @@ const rosedalImages = [
 
 export default async function RosedalPage() {
   const locale = await getRequestLocale()
+  const copy = editorialPageDictionaries[locale].rosedal
 
   return (
     <>
@@ -44,10 +46,10 @@ export default async function RosedalPage() {
         <section className="bg-primary py-12">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-background mb-2 uppercase">
-              Nuestro Rosedal
+              {copy.title}
             </h1>
             <p className="section-eyebrow-light">
-              — El alma viva de El Cangue —
+              — {copy.eyebrow} —
             </p>
           </div>
         </section>
@@ -69,48 +71,17 @@ export default async function RosedalPage() {
               {/* Content */}
               <div className="space-y-2.5 text-sm leading-[1.32] text-foreground/80">
                 <p>
-                  El jardin de la Estancia es nuestra &quot;via lactea&quot;. Esta en constante evolucion, 
-                  muta, se reinventa con las estaciones, lo que sin duda lo hace fascinante. Es un 
-                  jardin amado, lleno de rincones hermosos por descubrir.
+                  {copy.intro[0]}
                 </p>
                 <p>
-                  El &quot;Rosedal de la Abuela Anita&quot; es el corazon del parque, estelar entre 
-                  exiguas medidas de rosas y es el lugar preferido para celebrar bodas, tomar el 
-                  te o el aperitivo matutino cuando el otoño ofrece esplendorosas en 
-                  profusion.
+                  {copy.intro[1]}
                 </p>
                 <p>
-                  Nuestra abuela Anita fue en nuestro jardinero y de ella heredar la pasion por 
-                  las rosas. Los ejemplares que capturaron mi atencion por lo primitivo eran, 
-                  tallos sin planifacar por ella en la Estancia y habian sobrevivido hasta la 
-                  lengua de los anos 90. En aquel momento, como yo por este, era clara la 
-                  idea de rescatar su trabajo, un que habia llevado como &quot;lilas&quot; de rosales y 
-                  que las rosas estaban, salvo una en nuestro. Me estado y la absed con y 
-                  nosotros, en algun momento algunos trasplantes con rosales y aun hoy los fue 
-                  los.
-                </p>
-                <p>
-                  Anos de estudio, de visitar rosedales, de cultivar a prueba y error, de 
-                  multiplicar estolos, de crear variedades nuevas de semilla, clones frutu y sobre 
-                  eso ya pensando. Prospeccin, clasificacion y conservacion de rosedales de 
-                  Rosas Antiguas en peligro de desaparecer. &quot;AMIGOS DE LAS ROSAS 
-                  ANTIGUAS&quot;.
-                </p>
-                <p>
-                  Hoy El Cangue alberga una coleccion de mas de 100 variedades de rosas, de 
-                  las cuales mas de 120 corresponden a germoplasma de rosa antiguo. 
-                  Figuran en esta coleccion:
+                  {copy.intro[2]}
                 </p>
                 <ul className="list-inside list-disc space-y-1 text-foreground/70">
-                  <li>Te</li>
-                  <li>Noisette</li>
-                  <li>Polyantha</li>
-                  <li>Portland</li>
-                  <li>Hibridos de R. multiflora, chinensis, antiguos, gallicas, muscilasis, rugosa, multiflora, gigantea, alba, sempervirens, moschata, banksla, bruvonii, laebigergana</li>
-                  <li>Hibridos perpetuos</li>
-                  <li>Primermnas</li>
+                  {copy.collection.map((item) => <li key={item}>{item}</li>)}
                 </ul>
-                <p className="text-foreground/60 italic">Y muchas mas...</p>
               </div>
             </div>
           </div>
@@ -120,7 +91,7 @@ export default async function RosedalPage() {
         <section className="py-12 bg-primary">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <p className="font-serif text-2xl sm:text-3xl text-background/90 uppercase tracking-[0.12em]">
-              mas de 500 especies desde 1450
+              {copy.stat}
             </p>
           </div>
         </section>
@@ -132,26 +103,14 @@ export default async function RosedalPage() {
               {/* Content */}
               <div>
                 <h2 className="font-serif text-2xl sm:text-3xl text-title mb-6 uppercase">
-                  Nuestro Vivero
+                  {copy.nurseryTitle}
                 </h2>
                 <div className="space-y-2.5 text-sm leading-[1.32] text-foreground/80">
                   <p>
-                    En nuestra estancia funciona un vivero orientado principalmente a la 
-                    reproduccion de rosales y plantas acompanantes: herbaceas perennes, 
-                    bulbosas y anuales. Los objetivos e iniciativas apuntan integramente al 
-                    mantenimiento y expansion de la coleccion.
+                    {copy.nursery[0]}
                   </p>
                   <p>
-                    Nos encanta recibir, con agenda previa, a aficionados, clubes de jardineria 
-                    y grupos de rosalitas. Ofrecemos visitas guiadas al rosedal, espacios para 
-                    el intercambio de plantas y aromas del mundo en una experiencia de te 
-                    donde podras probar nuestro exclusivo blend &quot;Abuela Anita&quot;, acompanado 
-                    de pasteleria casera.
-                  </p>
-                  <p>
-                    Cada octubre, participamos en la Exposicion Rural de Paysandu, donde 
-                    nos encontraras con nuestro stand de rosales, herbaceas y accesorios 
-                    seleccionados para los amantes del jardin.
+                    {copy.nursery[1]}
                   </p>
                 </div>
               </div>
@@ -186,13 +145,10 @@ export default async function RosedalPage() {
               {/* Content */}
               <div className="lg:order-2">
                 <h2 className="font-serif text-2xl sm:text-3xl text-title mb-6 uppercase">
-                  Nuestro Blend de Te<br />&quot;Abuela Anita&quot;
+                  {copy.teaTitle}
                 </h2>
                 <p className="text-sm leading-[1.32] text-foreground/80">
-                  Uno de nuestros orgullos mas queridos. El blend Rosa como alma a los 
-                  petalos de rosa, pero en un equilibrio mas rico alon de pruebas, elegimos un 
-                  total de de 1492, con interes en Uruguay fue incorporado en cona 
-                  resultado en el te perfecto, finaly profundamente aromatica.
+                  {copy.teaText}
                 </p>
               </div>
             </div>
@@ -203,7 +159,7 @@ export default async function RosedalPage() {
         <section className="py-16 bg-primary">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <p className="font-serif text-2xl sm:text-3xl text-background/90 uppercase tracking-[0.12em]">
-              donde nacen nuevas historias
+              {copy.stories}
             </p>
           </div>
         </section>
@@ -213,10 +169,10 @@ export default async function RosedalPage() {
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="font-serif text-2xl sm:text-3xl text-title mb-2 uppercase">
-                Nuestras Rosas
+                {copy.rosesTitle}
               </h2>
               <p className="section-eyebrow-muted">
-                — Variedades creadas en El Cangue —
+                — {copy.rosesEyebrow} —
               </p>
             </div>
 
@@ -237,7 +193,7 @@ export default async function RosedalPage() {
                       {rose.name}
                     </h3>
                     <p className="text-xs leading-[1.32] text-foreground/70">
-                      {rose.description}
+                      {copy.roseDescriptions[index] ?? rose.description}
                     </p>
                   </div>
                 </div>
@@ -252,17 +208,17 @@ export default async function RosedalPage() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               <div>
                 <p className="section-eyebrow-light mb-2">
-                  Disponibles desde Septiembre 2024
+                  {copy.available}
                 </p>
                 <h3 className="font-serif text-xl sm:text-2xl text-background uppercase">
-                  Queres llevar una<br />parte de El Cangue a tu<br />jardin?
+                  {copy.ctaTitle}
                 </h3>
               </div>
               <Link
                 href={localizePath("/contacto", locale)}
                 className="inline-flex items-center justify-center px-6 py-3 border border-background/50 text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-background/10 transition-colors"
               >
-                Contactar
+                {copy.contact}
               </Link>
             </div>
           </div>
