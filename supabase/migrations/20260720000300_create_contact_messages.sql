@@ -20,6 +20,9 @@ create index if not exists contact_messages_unread_idx
 
 alter table public.contact_messages enable row level security;
 
+revoke all on table public.contact_messages from anon;
+grant select, update on table public.contact_messages to authenticated;
+
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$
 begin
