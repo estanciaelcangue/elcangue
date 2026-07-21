@@ -43,21 +43,20 @@ function mapPlaceReview(r: PlaceReview, index: number): GuestReview {
 export function TestimonialsSection({
   dictionary = getDictionary(defaultLocale),
 }: TestimonialsSectionProps) {
+  const copy = dictionary.home.testimonials
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
-  const [reviews, setReviews] = useState<GuestReview[]>([])
-  const copy = dictionary.home.testimonials
-
-  // Seed with hardcoded reviews immediately, then override with live data
-  useEffect(() => {
-    const fallback: GuestReview[] = copy.items.map((item, index) => ({
+  const [reviews, setReviews] = useState<GuestReview[]>(() =>
+    copy.items.map((item, index) => ({
       ...item,
       id: `guest-review-${index + 1}`,
       source: "Google",
       avatar: fallbackAvatars[index] ?? fallbackAvatars[0],
-    }))
-    setReviews(fallback)
+    })),
+  )
 
+  // Override the editorial fallback only when Google returns usable reviews.
+  useEffect(() => {
     fetch("/api/reviews")
       .then((res) => (res.ok ? res.json() : null))
       .then((data: { reviews: PlaceReview[] } | null) => {
@@ -71,7 +70,7 @@ export function TestimonialsSection({
       .catch(() => {
         // Keep fallback reviews on error
       })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (isPaused || reviews.length <= 1) return
@@ -138,7 +137,6 @@ export function TestimonialsSection({
                     fill
                     className="object-cover"
                     sizes="80px"
-                    unoptimized
                   />
                 </div>
               </div>
@@ -175,7 +173,7 @@ export function TestimonialsSection({
               </div>
 
               <blockquote className="max-w-3xl text-sm leading-[1.32] text-background/90">
-                "{current.text}"
+                &ldquo;{current.text}&rdquo;
               </blockquote>
             </div>
           </div>

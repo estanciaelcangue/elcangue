@@ -84,6 +84,7 @@ export default async function PosadaPage() {
             muted
             playsInline
             preload="metadata"
+            poster="/images/hero/cangue-01.webp"
             aria-hidden="true"
             className="absolute inset-0 z-0 h-full w-full object-cover"
           >
@@ -129,7 +130,7 @@ export default async function PosadaPage() {
                 >
                   {/* Image */}
                   <div className={`relative aspect-[4/3] overflow-hidden ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                    <Image src={room.image} alt={room.name} fill className="object-cover" />
+                    <Image src={room.image} alt={room.name} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
                   </div>
 
                   {/* Content */}

@@ -81,6 +81,7 @@ export function HeroSection({
           muted
           playsInline
           preload="metadata"
+          poster="/images/hero/cangue-01.webp"
           aria-hidden="true"
           className="absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
         >

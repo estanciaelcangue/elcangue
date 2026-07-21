@@ -8,7 +8,7 @@ import { getDictionary } from "@/lib/i18n/dictionaries"
 import { getLocaleFromPathnameOrDefault, localizePath } from "@/lib/i18n/navigation"
 import footerPattern from "@/public/images/FOOTER ROSAS.webp"
 
-const instagramHref = "https://instagram.com"
+const instagramHref = "https://www.instagram.com/estanciaelcangue/"
 const whatsappHref = "https://wa.me/59899726883"
 
 function WhatsAppLogo() {
