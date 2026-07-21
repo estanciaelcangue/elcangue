@@ -8,20 +8,28 @@ import { editorialPageDictionaries } from "@/lib/i18n/editorial-pages"
 
 const roseVarieties = [
   {
+    id: "dona-anita-del-cangue",
     name: "Dona Anita del Cangue",
     description: "Obtentora de El Cangue. Rosales trepadoras, semi-vigorosas con encanto romantico. Rosas delicadas grandes, abundante fragancia y follaje.",
+    image: "/images/ROSEDAL 1 EL CANGUE 4.webp",
   },
   {
+    id: "poli-del-cangue",
     name: "Poli del Cangue",
     description: "Obtentora de El Cangue. Rosales. Posee un perfume a rosas unica verdadera. Flores en primavera y fechas.",
+    image: "/images/ROSEDAL 1 EL CANGUE.webp",
   },
   {
+    id: "josefina-del-cangue",
     name: "Josefina del Cangue",
     description: "Hibrido criollo de gran porte. Con el talamo florar con la fraicheurencia de nuestras favoritas. Rosai, gran afilice.",
+    image: "/images/ROSEDAL 1.webp",
   },
   {
+    id: "ernestina-del-cangue",
     name: "Ernestina del Cangue",
     description: "Obtentora de El Cangue. Perfecto vigoros con floralio en el otoño con grau produtcion. Rotas grandes y florea morgas color. Suav y potente fragrancia.",
+    image: "/images/ROSEDAL 1 EL CANGUE 4-1.webp",
   },
 ]
 
@@ -178,10 +186,10 @@ export default async function RosedalPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {roseVarieties.map((rose, index) => (
-                <div key={index} className="flex gap-4">
+                <article key={rose.id} id={rose.id} className="flex gap-4" data-rose-variety={rose.id}>
                   <div className="w-20 h-20 flex-shrink-0 overflow-hidden">
                     <Image
-                      src={rosedalImages[index + 3] ?? rosedalImages[0]}
+                      src={rose.image}
                       alt={rose.name}
                       width={80}
                       height={80}
@@ -196,7 +204,7 @@ export default async function RosedalPage() {
                       {copy.roseDescriptions[index] ?? rose.description}
                     </p>
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           </div>
