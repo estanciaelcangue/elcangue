@@ -2,7 +2,7 @@
 
 import { useState, useTransition, useEffect, useRef } from "react"
 import Image from "next/image"
-import { useForm, Controller } from "react-hook-form"
+import { useForm, Controller, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { BedDouble, CalendarDays, Check, ClipboardCheck, UserRound } from "lucide-react"
@@ -156,8 +156,9 @@ function ReservationDateField({ value, onChange, error, ariaLabel, locale, clear
               disabled: "pointer-events-none text-foreground/20 opacity-45",
             }}
             components={{
-              DayButton: ({ day, modifiers, ...props }) => (
-                <button
+              DayButton: ({ day, modifiers, ...props }) => {
+                void day
+                return <button
                   type="button"
                   className={`flex size-[1.72rem] items-center justify-center rounded-sm border text-[0.86rem] leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 ${
                     modifiers.selected
@@ -170,7 +171,7 @@ function ReservationDateField({ value, onChange, error, ariaLabel, locale, clear
                   }`}
                   {...props}
                 />
-              ),
+              },
             }}
             footer={
               <div className="-mx-2.5 mt-3 flex items-center justify-between border-t border-primary/12 bg-[#F4EFE4]/72 px-2.5 pt-3 text-[0.66rem] font-semibold uppercase tracking-[0.12em]">
@@ -211,7 +212,6 @@ export function ReservationForm({ rooms, locale = "es" }: Props) {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     control,
     formState: { errors },
@@ -220,8 +220,8 @@ export function ReservationForm({ rooms, locale = "es" }: Props) {
     defaultValues: { adults: 2, children: 0, bed_config: "", room_id: "" },
   })
 
-  const selectedRoomId = watch("room_id")
-  const selectedBedConfig = watch("bed_config")
+  const selectedRoomId = useWatch({ control, name: "room_id" })
+  const selectedBedConfig = useWatch({ control, name: "bed_config" })
   const selectedRoom = rooms.find((r) => r.id === selectedRoomId)
 
   useEffect(() => {
