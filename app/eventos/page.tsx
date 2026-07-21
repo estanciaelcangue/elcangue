@@ -5,6 +5,7 @@ import Link from "next/link"
 import { getRequestLocale } from "@/lib/i18n/server"
 import { localizePath } from "@/lib/i18n/navigation"
 import { googleMapsEmbedSrc } from "@/lib/location"
+import { ContactMessageForm } from "@/components/contact-message-form"
 
 export default async function EventosPage() {
   const locale = await getRequestLocale()
@@ -163,34 +164,13 @@ export default async function EventosPage() {
                 <h3 className="section-eyebrow-muted mb-6 text-center">
                   Organiza tu Evento en la Estancia
                 </h3>
-                <form className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Nombre"
-                    className="w-full px-4 py-3 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Correo"
-                    className="w-full px-4 py-3 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Tipo de evento"
-                    className="w-full px-4 py-3 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
-                  />
-                  <textarea
-                    placeholder="Mensaje"
-                    rows={4}
-                    className="w-full px-4 py-3 bg-background border border-border text-sm focus:outline-none focus:ring-1 focus:ring-primary/50 resize-none"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full px-6 py-3 bg-coral text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-coral/90 transition-colors"
-                  >
-                    Enviar
-                  </button>
-                </form>
+                <ContactMessageForm
+                  origin="events"
+                  subjectLabel="Tipo de evento"
+                  subjectPlaceholder="Boda, cumpleaños, evento empresarial…"
+                  showPhone
+                  submitLabel="Consultar por mi evento"
+                />
               </div>
             </div>
           </div>

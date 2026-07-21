@@ -1,33 +1,10 @@
-"use client"
-
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { useState } from "react"
 import { MapPin, Phone, Mail } from "lucide-react"
 import { googleMapsEmbedSrc } from "@/lib/location"
+import { ContactMessageForm } from "@/components/contact-message-form"
 
 export default function ContactoPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsSubmitting(false)
-    alert("Gracias por tu mensaje. Te contactaremos pronto.")
-    setFormData({ name: "", email: "", subject: "", message: "" })
-  }
-
   return (
     <>
       <Header />
@@ -122,84 +99,17 @@ export default function ContactoPage() {
                   Envianos un Mensaje
                 </h2>
                 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Nombre completo
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
-                      placeholder="Tu nombre"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
-                      placeholder="tu@email.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
-                      Asunto
-                    </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
-                    >
-                      <option value="">Seleccionar...</option>
-                      <option value="reserva">Reserva de alojamiento</option>
-                      <option value="evento">Consulta de eventos</option>
-                      <option value="boda">Bodas</option>
-                      <option value="rosedal">Visita al Rosedal</option>
-                      <option value="otro">Otro</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                      Mensaje
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      className="w-full px-4 py-3 bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground resize-none"
-                      placeholder="Cuentanos sobre tu consulta..."
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full px-6 py-3.5 bg-coral text-background font-medium text-xs tracking-[0.15em] uppercase hover:bg-coral/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
-                  </button>
-                </form>
+                <ContactMessageForm
+                  origin="contact"
+                  showPhone
+                  subjectOptions={[
+                    { value: "reserva", label: "Reserva de alojamiento" },
+                    { value: "evento", label: "Consulta de eventos" },
+                    { value: "boda", label: "Bodas" },
+                    { value: "rosedal", label: "Visita al Rosedal" },
+                    { value: "otro", label: "Otro" },
+                  ]}
+                />
               </div>
             </div>
           </div>

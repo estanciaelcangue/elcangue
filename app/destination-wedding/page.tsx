@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer"
 import Image from "next/image"
 import { useState } from "react"
 import { ChevronDown, ChevronRight } from "lucide-react"
+import { ContactMessageForm } from "@/components/contact-message-form"
 
 const offerings = [
   {
@@ -108,6 +109,24 @@ export default function DestinationWeddingPage() {
                   className="object-cover"
                 />
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-border bg-card py-16">
+          <div className="mx-auto grid max-w-5xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+            <div>
+              <p className="section-eyebrow mb-3">Empecemos a imaginarla</p>
+              <h2 className="font-serif text-3xl uppercase text-title">Tu boda en El Cangüé</h2>
+              <p className="mt-5 text-sm leading-7 text-foreground/70">Contanos la fecha estimada, cantidad de invitados y el estilo de celebración que imaginan. Nuestro equipo les responderá con una propuesta personalizada.</p>
+            </div>
+            <div className="border border-border bg-background p-6 sm:p-8">
+              <ContactMessageForm
+                origin="destination_wedding"
+                defaultSubject="Consulta Destination Wedding"
+                showPhone
+                submitLabel="Consultar por nuestra boda"
+              />
             </div>
           </div>
         </section>

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { FileText, Home, LogOut, Users, CalendarCheck } from "lucide-react"
+import { FileText, Home, LogOut, Users, CalendarCheck, MessagesSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { requireAdminSession } from "@/lib/admin/auth"
 import { logoutAction } from "./actions"
@@ -49,6 +49,12 @@ export default async function AdminLayout({
               <Link href="/admin/reservas">
                 <CalendarCheck />
                 Reservas
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" className="justify-start">
+              <Link href="/admin/mensajes">
+                <MessagesSquare />
+                Mensajes
               </Link>
             </Button>
             {profile.role === "admin" && (
