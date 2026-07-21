@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { sendAdminNewReservationEmail } from "@/lib/email"
 import { z } from "zod"
+import { normalizeLocale, type Locale } from "@/lib/i18n/config"
 
 const reservationSchema = z.object({
   room_id: z.string().uuid(),
@@ -18,17 +19,25 @@ const reservationSchema = z.object({
 })
 
 export async function createReservation(
-  input: unknown
+  input: unknown,
+  localeValue: Locale = "es",
 ): Promise<{ error?: string }> {
+  const locale = normalizeLocale(localeValue)
+  const copy = {
+    es: { invalid: "Datos inválidos. Revisá el formulario.", dates: "La fecha de salida debe ser posterior al ingreso.", save: "No se pudo guardar la reserva. Intentá de nuevo." },
+    en: { invalid: "Invalid details. Please review the form.", dates: "Check-out must be after check-in.", save: "We could not save the request. Please try again." },
+    fr: { invalid: "Données invalides. Vérifiez le formulaire.", dates: "La date de départ doit être postérieure à l’arrivée.", save: "Nous n’avons pas pu enregistrer la demande. Réessayez." },
+    pt: { invalid: "Dados inválidos. Revise o formulário.", dates: "A data de saída deve ser posterior à entrada.", save: "Não foi possível salvar a solicitação. Tente novamente." },
+  }[locale]
   const parsed = reservationSchema.safeParse(input)
   if (!parsed.success) {
-    return { error: "Datos inválidos. Revisá el formulario." }
+    return { error: copy.invalid }
   }
 
   const { check_in, check_out, ...rest } = parsed.data
 
   if (check_out <= check_in) {
-    return { error: "La fecha de salida debe ser posterior al ingreso." }
+    return { error: copy.dates }
   }
 
   const supabase = await createClient()
@@ -49,11 +58,11 @@ export async function createReservation(
 
   if (error) {
     console.error("Error creating reservation:", error)
-    return { error: "No se pudo guardar la reserva. Intentá de nuevo." }
+    return { error: copy.save }
   }
 
   // Send admin notification (non-blocking — don't fail the request if email fails)
-  sendAdminNewReservationEmail({
+  const emailResult = await sendAdminNewReservationEmail({
     guestName: rest.guest_name,
     guestEmail: rest.guest_email,
     guestPhone: rest.guest_phone,
@@ -64,7 +73,11 @@ export async function createReservation(
     adults: rest.adults,
     children: rest.children,
     guestNotes: rest.guest_notes,
-  }).catch(console.error)
+  })
+
+  if (emailResult.error) {
+    console.error("Reservation saved but admin email failed", emailResult.error)
+  }
 
   return {}
 }
